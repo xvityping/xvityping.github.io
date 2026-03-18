@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="XviTyping — Master touch typing with structured lessons, Unijoy Bangla support and real-time analytics.">
+  <title>XviTyping — Master Your Speed</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@300;400;500;600&family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+  <!-- CSS — order matters -->
+  <link rel="stylesheet" href="assets/css/variables.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/header.css">
+  <link rel="stylesheet" href="assets/css/hero.css">
+  <link rel="stylesheet" href="assets/css/lessons.css">
+  <link rel="stylesheet" href="assets/css/test.css">
+  <link rel="stylesheet" href="assets/css/keyboard.css">
+  <link rel="stylesheet" href="assets/css/results.css">
+  <link rel="stylesheet" href="assets/css/toast.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+</head>
+<body>
+
+<!-- =============================================
+     AMBIENT BACKGROUND
+============================================== -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- =============================================
+     PAGE LOADER
+============================================== -->
+<div id="page-loader">
+  <div class="loader-logo">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="6" width="20" height="13" rx="2.5" stroke="white" stroke-width="1.7"/>
+      <rect x="5" y="10" width="2" height="2" rx=".6" fill="white"/>
+      <rect x="9" y="10" width="2" height="2" rx=".6" fill="white"/>
+      <rect x="13" y="10" width="2" height="2" rx=".6" fill="white"/>
+      <rect x="17" y="10" width="2" height="2" rx=".6" fill="white"/>
+      <rect x="5" y="14" width="6" height="2" rx="1" fill="white"/>
+      <rect x="13" y="14" width="6" height="2" rx="1" fill="white"/>
+    </svg>
+  </div>
+  <span class="loader-text">XviTyping</span>
+  <span class="loader-sub">Loading…</span>
+</div>
+
+<!-- =============================================
+     TOAST CONTAINER
+============================================== -->
+<div id="toasts"></div>
+
+<!-- =============================================
+     GHOST INPUT  (captures all keystrokes)
+============================================== -->
+<input type="text" id="ghost-input"
+  autocomplete="off" autocorrect="off"
+  autocapitalize="off" spellcheck="false">
+
+<!-- =============================================
+     MOBILE MENU
+============================================== -->
+<div class="mobile-menu" id="mobile-menu">
+  <button class="mobile-nav-pill active" onclick="nav('home');closeMobileMenu()">Home</button>
+  <button class="mobile-nav-pill" onclick="nav('lessons');closeMobileMenu()">Lessons</button>
+  <button class="mobile-nav-pill" onclick="nav('test');closeMobileMenu()">Test</button>
+  <hr style="border-color:var(--border);margin:4px 0">
+  <!-- Lock indicators inside mobile menu -->
+  <div style="display:flex;gap:8px;padding:6px 0">
+    <div class="kb-ind" id="ind-caps-mob"><div class="ind-light"></div>Caps</div>
+    <div class="kb-ind" id="ind-num-mob"><div class="ind-light"></div>Num</div>
+    <div class="kb-ind" id="ind-scroll-mob"><div class="ind-light"></div>Scrl</div>
+  </div>
+</div>
+
+<!-- =============================================
+     HEADER
+============================================== -->
+<header>
+  <div class="container">
+    <div class="header-inner">
+
+      <!-- Logo -->
+      <div class="logo" onclick="nav('home')">
+        <div class="logo-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="6" width="20" height="13" rx="2.5" stroke="white" stroke-width="1.7"/>
+            <rect x="5" y="10" width="2" height="2" rx=".6" fill="white"/>
+            <rect x="9" y="10" width="2" height="2" rx=".6" fill="white"/>
+            <rect x="13" y="10" width="2" height="2" rx=".6" fill="white"/>
+            <rect x="17" y="10" width="2" height="2" rx=".6" fill="white"/>
+            <rect x="5" y="14" width="6" height="2" rx="1" fill="white"/>
+            <rect x="13" y="14" width="6" height="2" rx="1" fill="white"/>
+          </svg>
+        </div>
+        <span class="logo-text">XviTyping</span>
+      </div>
+
+      <!-- Desktop Nav -->
+      <nav class="nav-pills">
+        <button class="nav-pill active" onclick="nav('home')">Home</button>
+        <button class="nav-pill" onclick="nav('lessons')">Lessons</button>
+        <button class="nav-pill" onclick="nav('test')">Test</button>
+      </nav>
+
+      <!-- Right controls -->
+      <div class="hdr-btns">
+
+        <!-- Lock Indicators -->
+        <div class="indicator-bar">
+          <div class="kb-ind" id="ind-caps">
+            <div class="ind-light"></div>Caps
+          </div>
+          <div class="ind-sep"></div>
+          <div class="kb-ind" id="ind-num">
+            <div class="ind-light"></div>Num
+          </div>
+          <div class="ind-sep"></div>
+          <div class="kb-ind" id="ind-scroll">
+            <div class="ind-light"></div>Scrl
+          </div>
+        </div>
+
+        <!-- Back button -->
+        <button class="back-btn" id="back-btn" onclick="goBack()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Back
+        </button>
+
+        <!-- Language toggle -->
+        <div class="lang-toggle shortcut-tip" data-tip="Ctrl+Alt+V to switch">
+          <button class="lang-btn active" id="btn-en"
+                  onclick="setLang('en')">EN</button>
+          <button class="lang-btn" id="btn-bn"
+                  onclick="setLang('bn')">বাং</button>
+        </div>
+
+        <!-- Sound -->
+        <button class="icon-btn on shortcut-tip" id="snd-btn"
+                onclick="toggleSound()" data-tip="Toggle sound">
+          <svg id="snd-icon-on" width="15" height="15" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+          </svg>
+          <svg id="snd-icon-off" width="15" height="15" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2" style="display:none">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+            <line x1="23" y1="9" x2="17" y2="15"/>
+            <line x1="17" y1="9" x2="23" y2="15"/>
+          </svg>
+        </button>
+
+        <!-- Theme -->
+        <button class="icon-btn shortcut-tip" id="thm-btn"
+                onclick="toggleTheme()" data-tip="Toggle theme">
+          <svg id="thm-icon" width="15" height="15" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        </button>
+
+        <!-- Hamburger -->
+        <button class="hamburger" id="hamburger-btn"
+                onclick="toggleMobileMenu()">
+          <span></span><span></span><span></span>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- =============================================
+     MAIN CONTENT
+============================================== -->
+<main>
+<div class="container">
+
+<!-- ==========================================
+     HOME SCREEN
+=========================================== -->
+<div class="screen active" id="screen-home">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="badge">
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+      </svg>
+      Speed Training Platform
+    </div>
+    <h1>Type Faster,<br><span class="grad">Think Sharper</span></h1>
+    <p class="sub" id="hero-sub">
+      Master touch typing with structured lessons, real-time analytics,
+      and full Unijoy Bangla keyboard support.
+    </p>
+  </div>
+
+  <!-- Type options -->
+  <div class="type-options">
+    <button class="type-opt active" data-mode="en" onclick="setTypeMode('en');this.closest('.type-options').querySelectorAll('.type-opt').forEach(b=>b.classList.remove('active'));this.classList.add('active')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/>
+      </svg>
+      English
+    </button>
+    <button class="type-opt" data-mode="bn" onclick="setTypeMode('bn');this.closest('.type-options').querySelectorAll('.type-opt').forEach(b=>b.classList.remove('active'));this.classList.add('active')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="2" y="6" width="20" height="13" rx="2.5"/>
+        <rect x="5" y="10" width="2" height="2" rx=".5" fill="currentColor"/>
+        <rect x="9" y="10" width="2" height="2" rx=".5" fill="currentColor"/>
+      </svg>
+      বাংলা
+    </button>
+    <div class="type-opt-sep"></div>
+    <button class="type-opt" data-mode="num" onclick="setTypeMode('num');this.closest('.type-options').querySelectorAll('.type-opt').forEach(b=>b.classList.remove('active'));this.classList.add('active')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 9l2-2v10M4 17h4M10 9h4l-4 5h4M18 9v10"/>
+      </svg>
+      123
+    </button>
+    <button class="type-opt" data-mode="sym" onclick="setTypeMode('sym');this.closest('.type-options').querySelectorAll('.type-opt').forEach(b=>b.classList.remove('active'));this.classList.add('active')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      !@#
+    </button>
+    <div class="type-opt-sep"></div>
+    <button class="type-opt" data-mode="inf" onclick="setTypeMode('inf');this.closest('.type-options').querySelectorAll('.type-opt').forEach(b=>b.classList.remove('active'));this.classList.add('active')">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 12c-2-2.5-4-4-6-4a4 4 0 0 0 0 8c2 0 4-1.5 6-4z"/>
+        <path d="M12 12c2 2.5 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.5-6 4z"/>
+      </svg>
+      ∞ Infinity
+    </button>
+  </div>
+
+  <!-- Mode cards -->
+  <div class="mode-grid">
+
+    <!-- Lessons -->
+    <div class="m-card" onclick="nav('lessons')">
+      <div class="mc-glow"></div>
+      <div class="mc-icon" style="background:rgba(0,212,177,.12)">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="var(--accent)" stroke-width="1.8">
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+          <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+          <line x1="12" y1="6" x2="16" y2="6"/>
+          <line x1="12" y1="10" x2="16" y2="10"/>
+        </svg>
+      </div>
+      <div class="mc-arrow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </div>
+      <h3>Typing Lessons</h3>
+      <p>16 structured lessons × 10 parts each. English &amp; full Unijoy Bangla.</p>
+    </div>
+
+    <!-- Quick Test -->
+    <div class="m-card" onclick="quickTest()">
+      <div class="mc-glow"></div>
+      <div class="mc-icon" style="background:rgba(124,58,237,.12)">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="#a78bfa" stroke-width="1.8">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+        </svg>
+      </div>
+      <div class="mc-arrow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </div>
+      <h3>Quick Test</h3>
+      <p>Jump in — online text, real-time WPM and accuracy.</p>
+    </div>
+
+    <!-- Custom -->
+    <div class="m-card" onclick="customTest()">
+      <div class="mc-glow"></div>
+      <div class="mc-icon" style="background:rgba(251,191,36,.12)">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+             stroke="#fbbf24" stroke-width="1.8">
+          <circle cx="12" cy="12" r="10"/>
+          <circle cx="12" cy="12" r="6"/>
+          <circle cx="12" cy="12" r="2"/>
+          <line x1="22" y1="12" x2="18" y2="12"/>
+          <line x1="6"  y1="12" x2="2"  y2="12"/>
+          <line x1="12" y1="6"  x2="12" y2="2"/>
+          <line x1="12" y1="22" x2="12" y2="18"/>
+        </svg>
+      </div>
+      <div class="mc-arrow">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      </div>
+      <h3>Custom Mode</h3>
+      <p>Set your own timer, pick language and difficulty.</p>
+    </div>
+
+  </div>
+
+  <!-- Stats strip -->
+  <div class="stats-row">
+    <div class="st-item">
+      <span class="st-val" id="h-wpm">--</span>
+      <span class="st-lbl">Best WPM</span>
+    </div>
+    <div class="st-item">
+      <span class="st-val" id="h-acc">--</span>
+      <span class="st-lbl">Best Accuracy</span>
+    </div>
+    <div class="st-item">
+      <span class="st-val" id="h-tests">0</span>
+      <span class="st-lbl">Tests Done</span>
+    </div>
+    <div class="st-item">
+      <span class="st-val" id="h-lessons">0</span>
+      <span class="st-lbl">Lessons Done</span>
+    </div>
+    <div class="st-item">
+      <span class="st-val" id="h-time">0s</span>
+      <span class="st-lbl">Time Typed</span>
+    </div>
+  </div>
+
+  <!-- Recent scores -->
+  <div class="recent-row">
+    <h3>Recent Results</h3>
+    <div class="recent-list" id="recent-list"></div>
+  </div>
+
+</div><!-- /screen-home -->
+
+<!-- ==========================================
+     LESSONS SCREEN 1
+=========================================== -->
+<div class="screen" id="screen-lessons">
+  <div class="sec-hdr">
+    <h2>Typing Lessons</h2>
+    <p>16 lessons × 10 parts each — beginner to expert.</p>
+  </div>
+
+  <!-- Tab filters -->
+  <div class="lessons-tabs">
+    <button class="ltab active" id="ltab-en" data-lang="en"
+            onclick="filterLessons('en',this)">
+      English
+      <span class="ltab-count">16</span>
+    </button>
+    <button class="ltab" id="ltab-bn" data-lang="bn"
+            onclick="filterLessons('bn',this)">
+      বাংলা (Unijoy)
+      <span class="ltab-count">16</span>
+    </button>
+  </div>
+
+  <!-- Progress bar -->
+  <div class="lessons-progress-bar">
+    <span class="lp-label">0 / 160 parts done</span>
+    <div class="lp-track">
+      <div class="lp-fill" id="lp-fill" style="width:0%"></div>
+    </div>
+    <span class="lp-pct" id="lp-pct">0%</span>
+  </div>
+
+  <!-- Grid -->
+  <div class="lessons-grid" id="lessons-grid"></div>
+</div><!-- /screen-lessons -->
+
+<!-- ==========================================
+     LESSON DETAIL SCREEN
+=========================================== -->
+<div class="screen" id="screen-lesson-detail">
+  <div class="sec-hdr" style="padding-bottom:16px">
+    <div class="lesson-detail-hdr">
+      <button class="back-to-lessons" onclick="nav('lessons')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        All Lessons
+      </button>
+      <div class="lesson-detail-info">
+        <h2 id="lesson-detail-title">Lesson Title</h2>
+        <p id="lesson-detail-desc">Lesson description</p>
+        <span class="diff-badge beginner" id="lesson-detail-diff">beginner</span>
+      </div>
+    </div>
+  </div>
+  <div class="parts-grid" id="parts-grid"></div>
+</div><!-- /screen-lesson-detail -->
+
+<!-- ==========================================
+     TEST SCREEN
+=========================================== -->
+<div class="screen" id="screen-test">
+<div class="test-wrap">
+
+  <!-- Type mode selector -->
+  <div class="test-type-opts">
+    <button class="tto-btn active" data-mode="en"
+            onclick="setTypeMode('en')">EN</button>
+    <button class="tto-btn" data-mode="bn"
+            onclick="setTypeMode('bn')">বাং</button>
+    <button class="tto-btn" data-mode="num"
+            onclick="setTypeMode('num')">123</button>
+    <button class="tto-btn" data-mode="sym"
+            onclick="setTypeMode('sym')">!@#</button>
+    <button class="tto-btn" data-mode="inf"
+            onclick="setTypeMode('inf')">∞</button>
+  </div>
+
+  <!-- Top bar -->
+  <div class="test-topbar">
+
+    <!-- Timer -->
+    <div class="timer-wrap">
+      <div class="timer-big" id="timer-disp">60</div>
+      <span class="timer-label">seconds</span>
+    </div>
+
+    <!-- Live stats -->
+    <div class="live-stats">
+      <div class="lstat">
+        <span class="lstat-val" id="s-wpm">0</span>
+        <span class="lstat-lbl">WPM</span>
+      </div>
+      <div class="lstat good">
+        <span class="lstat-val" id="s-acc">100</span>
+        <span class="lstat-lbl">Acc%</span>
+      </div>
+      <div class="lstat err">
+        <span class="lstat-val" id="s-err">0</span>
+        <span class="lstat-lbl">Errors</span>
+      </div>
+      <div class="lstat cpm">
+        <span class="lstat-val" id="s-cpm">0</span>
+        <span class="lstat-lbl">CPM</span>
+      </div>
+    </div>
+
+    <!-- Timer mode selector -->
+    <div class="timer-controls">
+      <div class="t-modes">
+        <button class="t-mode active" id="tm-60"
+                onclick="setTimerMode(60,this)">1 min</button>
+        <button class="t-mode" id="tm-120"
+                onclick="setTimerMode(120,this)">2 min</button>
+        <button class="t-mode" id="tm-300"
+                onclick="setTimerMode(300,this)">5 min</button>
+        <button class="t-mode" id="tm-c"
+                onclick="setTimerMode('custom',this)">
+          <div class="custom-sec-wrap">
+            <input id="custom-sec" type="number" class="custom-num"
+                   value="90" min="10" max="600">s
+          </div>
+        </button>
+        <button class="t-mode" id="tm-inf"
+                onclick="setTimerMode('inf',this)">∞</button>
+      </div>
+      <!-- Progress bar -->
+      <div class="prog-wrap test-progress">
+        <div class="prog-fill" id="prog" style="width:100%"></div>
+      </div>
+    </div>
+
+  </div><!-- /test-topbar -->
+
+  <!-- Lesson info bar (shown when in lesson mode) -->
+  <div class="lesson-info-bar" id="lesson-info-bar">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+         stroke="var(--accent)" stroke-width="2">
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+      <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+    </svg>
+    <span class="lib-title">Lesson Title</span>
+    <span class="lib-part">Part 1 / 10</span>
+    <div class="lib-part-dots"></div>
+  </div>
+
+  <!-- Text card -->
+  <div class="text-card centered" id="text-card">
+
+    <!-- Hint state -->
+    <div id="hint-state" class="start-hint">
+      <svg class="sh-icon" width="50" height="50" viewBox="0 0 24 24"
+           fill="none" stroke="var(--accent)" stroke-width="1.3">
+        <rect x="2" y="6" width="20" height="13" rx="2.5"/>
+        <rect x="5" y="10" width="2" height="2" rx=".6" fill="var(--accent)"/>
+        <rect x="9" y="10" width="2" height="2" rx=".6" fill="var(--accent)"/>
+        <rect x="13" y="10" width="2" height="2" rx=".6" fill="var(--accent)"/>
+        <rect x="17" y="10" width="2" height="2" rx=".6" fill="var(--accent)"/>
+        <rect x="5" y="14" width="14" height="2" rx="1" fill="var(--accent)"/>
+      </svg>
+      <p class="sh-title" id="hint-title">
+        Press <strong style="color:var(--accent)">Start</strong> to begin
+      </p>
+      <p class="sh-sub" id="hint-sub">
+        or press any key to auto-start &nbsp;
+        <span class="kbd">Esc</span> to pause
+      </p>
+    </div>
+
+    <!-- Loading state -->
+    <div id="load-state" class="text-loading" style="display:none">
+      <div class="load-spin"></div>
+      <p>Fetching text…</p>
+    </div>
+
+    <!-- Text display — 4-line window -->
+    <div id="text-display" style="display:none">
+      <div id="text-inner"></div>
+    </div>
+
+    <!-- Part complete overlay -->
+    <div class="part-complete-overlay" id="part-complete-overlay">
+      <div class="pco-title">Part Complete!</div>
+      <div class="pco-wpm">0</div>
+      <div class="pco-sub">WPM</div>
+      <div class="pco-btns">
+        <button class="btn btn-primary" onclick="hidePartComplete();doRestart()">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
+            <polyline points="1 4 1 10 7 10"/>
+            <path d="M3.51 15a9 9 0 1 0 .49-4.95"/>
+          </svg>
+          Retry
+        </button>
+        <button class="btn btn-secondary" id="next-part-btn"
+                onclick="hidePartComplete()">
+          Next Part
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /text-card -->
+
+  <!-- Controls -->
+  <div class="test-ctrl">
+    <button class="btn btn-primary btn-lg" id="main-btn"
+            onclick="handleMain()">
+      <svg id="main-icon" width="16" height="16" viewBox="0 0 24 24"
+           fill="currentColor">
+        <polygon points="5 3 19 12 5 21 5 3"/>
+      </svg>
+      <span id="main-txt">Start</span>
+    </button>
+
+    <button class="btn btn-secondary" onclick="doRestart()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+           stroke="currentColor" stroke-width="2">
+        <polyline points="1 4 1 10 7 10"/>
+        <path d="M3.51 15a9 9 0 1 0 .49-4.95"/>
+      </svg>
+      Restart
+    </button>
+
+    <button class="btn btn-ghost" id="stop-btn"
+            style="display:none" onclick="doStop()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+        <rect x="3" y="3" width="18" height="18" rx="2.5"/>
+      </svg>
+      Stop
+    </button>
+  </div>
+
+  <!-- Virtual Keyboard -->
+  <div class="kb-wrap">
+    <div class="kb-hdr">
+      <div class="kb-hdr-left">
+        <span class="kb-title">Virtual Keyboard</span>
+        <span class="kb-layout-badge" id="kb-layout-badge">QWERTY</span>
+
+        <!-- Lock indicators inside keyboard -->
+        <div class="kb-indicators">
+          <div class="kb-ind" id="kb-ind-caps">
+            <div class="ind-light"></div>Caps
+          </div>
+          <div class="kb-ind" id="kb-ind-num">
+            <div class="ind-light"></div>Num
+          </div>
+          <div class="kb-ind" id="kb-ind-scroll">
+            <div class="ind-light"></div>Scrl
+          </div>
+        </div>
+      </div>
+
+      <div class="kb-hdr-right">
+        <span class="kb-shortcut-hint" id="kb-switch-hint">
+          <span class="kbd">Ctrl+Alt+V</span>
+          <span id="kb-switch-hint-text">— switch to বাং</span>
+        </span>
+        <label class="kb-toggle-lbl">
+          <input type="checkbox" id="kb-chk" checked
+                 onchange="toggleKb()">
+          Show
+        </label>
+      </div>
+    </div>
+
+    <!-- Keyboard rows -->
+    <div id="vkb"></div>
+
+    <!-- Bijoy legend -->
+    <div class="bijoy-legend" id="bijoy-legend"></div>
+
+    <!-- Switch shortcut bar -->
+    <div class="kb-switch-bar">
+      <span class="kbd">Ctrl</span>
+      <span>+</span>
+      <span class="kbd">Alt</span>
+      <span>+</span>
+      <span class="kbd">V</span>
+      <span class="arrow-sep">→</span>
+      <span>Toggle EN / বাং</span>
+      &nbsp;·&nbsp;
+      <span class="kbd">Esc</span>
+      <span>= Pause</span>
+    </div>
+
+  </div><!-- /kb-wrap -->
+
+</div><!-- /test-wrap -->
+</div><!-- /screen-test -->
+
+<!-- ==========================================
+     RESULTS SCREEN  — single viewport layout
+=========================================== -->
+<div class="screen" id="screen-results">
+<div class="results-wrap">
+
+  <!-- ── TOP ROW: Hero + Doughnut ── -->
+  <div style="display:grid;grid-template-columns:1fr auto;gap:12px;align-items:start">
+
+    <!-- Hero WPM card -->
+    <div class="res-hero">
+      <div class="res-done">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8">
+          <circle cx="12" cy="8" r="7"/>
+          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+        </svg>
+        Test Complete
+      </div>
+      <div class="wpm-giant" id="r-wpm">0</div>
+      <div class="wpm-sub">Words Per Minute</div>
+      <div class="res-stats">
+        <div class="rs-item g"><span class="rs-val" id="r-acc">--%</span><span class="rs-lbl">Accuracy</span></div>
+        <div class="rs-sep"></div>
+        <div class="rs-item r"><span class="rs-val" id="r-err">--</span><span class="rs-lbl">Errors</span></div>
+        <div class="rs-sep"></div>
+        <div class="rs-item a"><span class="rs-val" id="r-time">--</span><span class="rs-lbl">Time</span></div>
+        <div class="rs-sep"></div>
+        <div class="rs-item a"><span class="rs-val" id="r-chars">--</span><span class="rs-lbl">Chars</span></div>
+        <div class="rs-sep"></div>
+        <div class="rs-item p"><span class="rs-val" id="r-cpm">--</span><span class="rs-lbl">CPM</span></div>
+      </div>
+      <!-- Badges -->
+      <div id="best-wrap" style="display:none">
+        <div class="best-badge">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M6 9H4a2 2 0 0 1-2-2V5h4"/><path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/>
+            <path d="M12 17c-3.31 0-6-2.69-6-6V5h12v6c0 3.31-2.69 6-6 6z"/>
+            <line x1="12" y1="17" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/>
+          </svg>
+          New Personal Best!
+        </div>
+      </div>
+      <div class="lesson-complete-badge" id="lesson-complete-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg>
+        Lesson Complete!
+      </div>
+    </div>
+
+    <!-- Doughnut chart -->
+    <div class="ch-card" style="width:200px;flex-shrink:0">
+      <h3>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+          <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>
+        </svg>
+        Accuracy
+      </h3>
+      <canvas id="acc-canvas" style="max-height:150px!important;height:150px!important"></canvas>
+    </div>
+  </div>
+
+  <!-- ── BOTTOM ROW: WPM chart + Detailed stats ── -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+
+    <!-- WPM line chart -->
+    <div class="ch-card">
+      <h3>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+        </svg>
+        WPM Over Time
+      </h3>
+      <canvas id="wpm-canvas" style="max-height:130px!important;height:130px!important"></canvas>
+    </div>
+
+    <!-- Detailed stats grid -->
+    <div class="result-breakdown">
+      <h3>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        Detailed Stats
+      </h3>
+      <div class="rb-grid">
+        <div class="rb-item"><span class="rb-label">WPM</span><span class="rb-value accent" id="rb-wpm">0</span></div>
+        <div class="rb-item"><span class="rb-label">Accuracy</span><span class="rb-value correct" id="rb-acc">0%</span></div>
+        <div class="rb-item"><span class="rb-label">CPM</span><span class="rb-value purple" id="rb-cpm">0</span></div>
+        <div class="rb-item"><span class="rb-label">Errors</span><span class="rb-value wrong" id="rb-errors">0</span></div>
+        <div class="rb-item"><span class="rb-label">Correct</span><span class="rb-value accent" id="rb-correct">0</span></div>
+        <div class="rb-item"><span class="rb-label">Keystrokes</span><span class="rb-value" id="rb-total-ks">0</span></div>
+        <div class="rb-item"><span class="rb-label">Time</span><span class="rb-value" id="rb-time">0s</span></div>
+        <div class="rb-item"><span class="rb-label">Mode</span><span class="rb-value" id="rb-mode">60s</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ACTIONS ── -->
+  <div class="res-actions">
+    <button class="btn btn-primary btn-lg" onclick="doRestart();nav('test')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+      Try Again
+    </button>
+    <button class="btn btn-secondary btn-lg" onclick="nav('home')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </button>
+    <button class="btn btn-secondary btn-lg" onclick="nav('lessons')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+      Lessons
+    </button>
+  </div>
+
+</div><!-- /results-wrap -->
+</div><!-- /screen-results -->
+
+</div><!-- /container -->
+</main>
+
+<!-- =============================================
+     JAVASCRIPT — load order is critical
+============================================== -->
+
+<!-- Firebase config (loaded first so DB vars available) -->
+<script src="firebase/config.js"></script>
+<script src="firebase/db.js"></script>
+
+<!-- Core state + storage -->
+<script src="assets/js/state.js"></script>
+<script src="assets/js/storage.js"></script>
+
+<!-- UI helpers -->
+<script src="assets/js/theme.js"></script>
+<script src="assets/js/sound.js"></script>
+<script src="assets/js/lang.js"></script>
+
+<!-- Navigation -->
+<script src="assets/js/router.js"></script>
+
+<!-- Typing engine -->
+<script src="assets/js/keyboard.js"></script>
+<script src="assets/js/typing.js"></script>
+<script src="assets/js/timer.js"></script>
+<script src="assets/js/stats.js"></script>
+<script src="assets/js/charts.js"></script>
+
+<!-- Lessons -->
+<script src="assets/js/lessons.js"></script>
+
+<!-- Analytics tracker -->
+<script src="assets/js/tracker.js"></script>
+
+<!-- App init — always last -->
+<script src="assets/js/app.js"></script>
+
+</body>
+</html>
