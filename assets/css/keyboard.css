@@ -1,0 +1,456 @@
+/* ================================================
+   XVITYPING — VIRTUAL KEYBOARD
+   keyboard.css
+================================================ */
+
+/* ---------- KEYBOARD WRAPPER ---------- */
+.kb-wrap {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 16px 20px 18px;
+  backdrop-filter: blur(14px);
+  transition: border-color var(--t-base);
+}
+
+.kb-wrap:hover {
+  border-color: var(--border-strong);
+}
+
+/* ---------- KEYBOARD HEADER ---------- */
+.kb-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.kb-hdr-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kb-title {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+}
+
+/* Layout badge: QWERTY / Bijoy */
+.kb-layout-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  font-size: 0.66rem;
+  color: var(--text-dim);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.kb-layout-badge.bijoy {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.kb-layout-badge .badge-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.kb-hdr-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Shortcut hint in header */
+.kb-shortcut-hint {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Show/hide toggle */
+.kb-toggle-lbl {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  user-select: none;
+  transition: color var(--t-fast);
+}
+
+.kb-toggle-lbl:hover {
+  color: var(--accent);
+}
+
+.kb-toggle-lbl input[type="checkbox"] {
+  accent-color: var(--accent);
+  width: 13px;
+  height: 13px;
+}
+
+/* ---------- LOCK INDICATORS INSIDE KB HEADER ---------- */
+.kb-indicators {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.kb-ind {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  transition: all var(--t-fast);
+  user-select: none;
+}
+
+.kb-ind .ind-light {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  transition: all var(--t-fast);
+}
+
+/* Caps Lock ON → amber */
+.kb-ind.caps-on {
+  border-color: rgba(245,158,11,0.40);
+  color: var(--warn);
+  background: rgba(245,158,11,0.08);
+}
+
+.kb-ind.caps-on .ind-light {
+  background: var(--warn);
+  box-shadow: 0 0 6px rgba(245,158,11,0.50);
+}
+
+/* Num Lock / Scroll Lock ON → accent */
+.kb-ind.on {
+  border-color: var(--border-accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.kb-ind.on .ind-light {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+
+/* ---------- KEYBOARD BODY ---------- */
+#vkb {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+#vkb::-webkit-scrollbar {
+  height: 3px;
+}
+
+/* ---------- KEY ROW ---------- */
+.krow {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* ---------- BASE KEY ---------- */
+.key {
+  height: 42px;
+  min-width: 38px;
+  border-radius: 8px;
+  background: var(--key-bg);
+  border: 1px solid var(--key-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1px;
+  user-select: none;
+  cursor: default;
+  transition:
+    background  var(--t-fast),
+    border-color var(--t-fast),
+    transform    var(--t-fast),
+    box-shadow   var(--t-fast),
+    color        var(--t-fast);
+  padding: 2px 5px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* ---------- KEY LABEL LAYERS ---------- */
+
+/* English label (shown in EN mode, shown small in Bijoy mode) */
+.key-en-lbl {
+  font-family: var(--font-head);
+  font-size: 0.70rem;
+  font-weight: 600;
+  color: var(--key-text);
+  line-height: 1;
+  transition: color var(--t-fast);
+}
+
+/* Bijoy primary char — large, accent colored */
+.key-bn-lbl {
+  font-family: var(--font-bn);
+  font-size: 0.95rem;
+  color: var(--accent);
+  line-height: 1;
+  transition: color var(--t-fast);
+}
+
+/* Bijoy shifted char — small, shown top-left */
+.key-bn-shift {
+  font-family: var(--font-bn);
+  font-size: 0.62rem;
+  color: var(--text-muted);
+  line-height: 1;
+  position: absolute;
+  top: 4px;
+  left: 5px;
+  transition: color var(--t-fast);
+}
+
+/* Small EN label shown below BN char in Bijoy mode */
+.key-sub-lbl {
+  font-size: 0.52rem;
+  color: var(--text-muted);
+  line-height: 1;
+  font-family: var(--font-head);
+  transition: color var(--t-fast);
+}
+
+/* ---------- KEY WIDTH VARIANTS ---------- */
+.key.w50  { min-width: 48px; }
+.key.w60  { min-width: 58px; }
+.key.w70  { min-width: 68px; }
+.key.w80  { min-width: 78px; }
+.key.w90  { min-width: 88px; }
+.key.w100 { min-width: 98px; }
+.key.w110 { min-width: 108px; }
+.key.w130 { min-width: 128px; }
+.key.w260 { min-width: 220px; }
+.key.w290 { min-width: 280px; }
+
+/* ---------- MODIFIER KEY STYLE ---------- */
+.key.modifier {
+  background: rgba(255,255,255,0.03);
+}
+
+[data-theme="light"] .key.modifier {
+  background: rgba(0,0,0,0.05);
+}
+
+/* ---------- KEY HIGHLIGHT STATES ---------- */
+
+/* Next key to press — glow lift */
+.key.hl-next {
+  background: rgba(0, 212, 177, 0.16);
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow), inset 0 0 8px var(--accent-dim);
+  transform: translateY(-3px);
+}
+
+.key.hl-next .key-en-lbl,
+.key.hl-next .key-bn-lbl,
+.key.hl-next .key-bn-shift {
+  color: var(--accent);
+}
+
+/* Correct keypress — green flash */
+.key.hl-ok {
+  background: rgba(34, 197, 94, 0.22);
+  border-color: var(--correct);
+  box-shadow: 0 0 12px var(--correct-glow);
+  transform: scale(0.93) translateY(1px);
+}
+
+.key.hl-ok .key-en-lbl,
+.key.hl-ok .key-bn-lbl {
+  color: var(--correct);
+}
+
+/* Wrong keypress — red shake */
+.key.hl-err {
+  background: rgba(239, 68, 68, 0.22);
+  border-color: var(--wrong);
+  box-shadow: 0 0 12px var(--wrong-glow);
+  transform: scale(0.93) translateY(1px);
+  animation: keyShake 0.22s ease;
+}
+
+.key.hl-err .key-en-lbl,
+.key.hl-err .key-bn-lbl {
+  color: var(--wrong);
+}
+
+@keyframes keyShake {
+  0%, 100% { transform: scale(0.93) translateX(0); }
+  25%       { transform: scale(0.93) translateX(-4px); }
+  75%       { transform: scale(0.93) translateX(4px); }
+}
+
+/* ---------- BIJOY SPECIAL KEYS ---------- */
+
+/* G key — conjunct trigger (hasanta) */
+.key[data-raw="g"].bijoy-g,
+.key[data-raw="G"].bijoy-g {
+  border-color: rgba(167,139,250,0.30);
+  background: rgba(167,139,250,0.06);
+}
+
+.key[data-raw="g"].bijoy-g .key-sub-lbl {
+  color: #a78bfa;
+  font-size: 0.48rem;
+}
+
+/* Space bar */
+.key.spacebar {
+  background: var(--key-bg);
+  border-color: var(--key-border);
+}
+
+/* Enter key */
+.key.enter-key {
+  background: rgba(0,212,177,0.04);
+  border-color: rgba(0,212,177,0.15);
+}
+
+/* ---------- BIJOY LEGEND (below keyboard) ---------- */
+.bijoy-legend {
+  display: none;
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+}
+
+.bijoy-legend.visible {
+  display: block;
+}
+
+.bijoy-legend strong {
+  color: var(--accent);
+  font-family: var(--font-bn);
+}
+
+.bijoy-legend-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+}
+
+.bl-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.bl-key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 20px;
+  background: var(--key-bg);
+  border: 1px solid var(--key-border);
+  border-radius: 4px;
+  font-family: var(--font-head);
+  font-size: 0.62rem;
+  color: var(--key-text);
+  padding: 0 5px;
+}
+
+.bl-arrow {
+  color: var(--text-faint);
+  font-size: 0.7rem;
+}
+
+.bl-bn {
+  font-family: var(--font-bn);
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+/* ---------- HAND GUIDE OVERLAY (optional) ---------- */
+.hand-guide {
+  display: none;
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  opacity: 0.25;
+}
+
+/* Left hand keys tint */
+.key.left-hand  { box-shadow: inset 3px 0 0 rgba(0,212,177,0.15); }
+.key.right-hand { box-shadow: inset -3px 0 0 rgba(167,139,250,0.15); }
+
+/* ---------- KEYBOARD HIDDEN STATE ---------- */
+#vkb.hidden {
+  display: none;
+}
+
+/* ---------- SWITCH SHORTCUT BAR ---------- */
+.kb-switch-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.kb-switch-bar .kbd {
+  background: var(--card2);
+  border: 1px solid var(--border-strong);
+  border-radius: 5px;
+  padding: 2px 7px;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--text-dim);
+}
+
+.kb-switch-bar .arrow-sep {
+  color: var(--text-faint);
+}

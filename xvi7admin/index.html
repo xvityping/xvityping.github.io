@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>XviTyping — Admin Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<div class="login-wrap">
+  <div class="login-card">
+
+    <!-- Logo -->
+    <div class="login-logo">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+        <rect x="2" y="6" width="20" height="13" rx="2.5" stroke="white" stroke-width="1.7"/>
+        <rect x="5" y="10" width="2" height="2" rx=".6" fill="white"/>
+        <rect x="9" y="10" width="2" height="2" rx=".6" fill="white"/>
+        <rect x="13" y="10" width="2" height="2" rx=".6" fill="white"/>
+        <rect x="17" y="10" width="2" height="2" rx=".6" fill="white"/>
+        <rect x="5" y="14" width="14" height="2" rx="1" fill="white"/>
+      </svg>
+    </div>
+
+    <div class="login-title">XviTyping Admin</div>
+    <div class="login-sub">Sign in to access the dashboard</div>
+
+    <!-- Form -->
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <input type="text" id="inp-user" class="form-input"
+             placeholder="admin" autocomplete="username">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <input type="password" id="inp-pass" class="form-input"
+             placeholder="••••••••" autocomplete="current-password">
+    </div>
+
+    <button class="login-btn" onclick="doLogin()" id="login-btn">
+      Sign In
+    </button>
+
+    <div class="login-error" id="login-error">
+      Incorrect username or password
+    </div>
+
+    <div style="margin-top:24px;font-size:.72rem;color:var(--text-muted);line-height:1.7">
+      Access via <code style="color:var(--accent)">/xvi7admin</code><br>
+      Default: admin / xvityping2025
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ================================================
+   ADMIN LOGIN
+   Credentials are stored hashed in localStorage
+   Change password via ADMIN_CREDENTIALS below
+================================================ */
+
+/* SHA-256 hash of "username:password" */
+/* To change: run hashCreds('newuser','newpass') in console */
+const ADMIN_HASH = ''; /* set on first setup */
+
+/* Default credentials (change these!) */
+const DEFAULT_USER = 'admin';
+const DEFAULT_PASS = 'xvityping2025';
+
+async function sha256(str) {
+  const buf  = await crypto.subtle.digest('SHA-256',
+    new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf))
+    .map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function doLogin() {
+  const user = document.getElementById('inp-user').value.trim();
+  const pass = document.getElementById('inp-pass').value;
+  const btn  = document.getElementById('login-btn');
+  const err  = document.getElementById('login-error');
+
+  if (!user || !pass) {
+    showError('Please enter username and password');
+    return;
+  }
+
+  btn.textContent = 'Signing in…';
+  btn.disabled = true;
+  err.classList.remove('show');
+
+  try {
+    const hash    = await sha256(`${user}:${pass}`);
+    const stored  = localStorage.getItem('xvt_admin_hash');
+
+    /* First login — store hash */
+    if (!stored) {
+      const defHash = await sha256(`${DEFAULT_USER}:${DEFAULT_PASS}`);
+      if (hash === defHash) {
+        localStorage.setItem('xvt_admin_hash', defHash);
+        grantAccess();
+        return;
+      }
+    } else {
+      if (hash === stored) {
+        grantAccess();
+        return;
+      }
+    }
+
+    showError('Incorrect username or password');
+  } catch (e) {
+    showError('Login failed — try again');
+  }
+
+  btn.textContent = 'Sign In';
+  btn.disabled = false;
+}
+
+function grantAccess() {
+  /* Store session token (expires in 8 hours) */
+  const token = {
+    ts:      Date.now(),
+    expires: Date.now() + 8 * 60 * 60 * 1000,
+  };
+  sessionStorage.setItem('xvt_admin_session', JSON.stringify(token));
+  window.location.href = 'dashboard.html';
+}
+
+function showError(msg) {
+  const err = document.getElementById('login-error');
+  err.textContent = msg;
+  err.classList.add('show');
+  const btn = document.getElementById('login-btn');
+  btn.textContent = 'Sign In';
+  btn.disabled = false;
+}
+
+/* Allow Enter key */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter') doLogin();
+});
+
+/* Redirect if already logged in */
+(function checkSession() {
+  const raw = sessionStorage.getItem('xvt_admin_session');
+  if (!raw) return;
+  try {
+    const s = JSON.parse(raw);
+    if (Date.now() < s.expires) {
+      window.location.href = 'dashboard.html';
+    }
+  } catch(e) {}
+})();
+</script>
+</body>
+</html>

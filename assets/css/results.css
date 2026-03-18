@@ -1,0 +1,215 @@
+/* ================================================
+   XVITYPING — RESULTS SCREEN
+   results.css
+   Everything fits in ONE viewport — no scroll
+================================================ */
+
+/* ---------- RESULTS WRAPPER ---------- */
+.results-wrap {
+  padding: 16px 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ---------- RESULT HERO CARD ---------- */
+.res-hero {
+  text-align: center;
+  padding: 22px 40px 18px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  backdrop-filter: blur(14px);
+  position: relative;
+  overflow: hidden;
+}
+
+.res-hero::before {
+  content: '';
+  position: absolute;
+  width: 280px; height: 280px;
+  border-radius: 50%;
+  background: var(--accent-glow);
+  top: -140px; left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  filter: blur(40px);
+}
+
+.res-hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(0,212,177,.03) 0%, transparent 50%, rgba(124,58,237,.03) 100%);
+  pointer-events: none;
+}
+
+/* ---------- DONE LABEL ---------- */
+.res-done {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  font-size: .7rem; color: var(--text-dim);
+  text-transform: uppercase; letter-spacing: .14em;
+  margin-bottom: 4px; position: relative; z-index: 1;
+}
+
+/* ---------- WPM NUMBER ---------- */
+.wpm-giant {
+  font-family: var(--font-head);
+  font-size: clamp(3rem, 5vw, 5rem);
+  font-weight: 800; line-height: 1;
+  background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 60%, var(--accent) 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradShift 4s linear infinite;
+  position: relative; z-index: 1;
+  letter-spacing: -.03em;
+}
+
+@keyframes gradShift { to { background-position: 200% center; } }
+
+.wpm-sub {
+  font-size: .65rem; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: .14em;
+  margin-top: 2px; position: relative; z-index: 1;
+}
+
+/* ---------- STATS ROW ---------- */
+.res-stats {
+  display: flex; align-items: center;
+  justify-content: center;
+  gap: 24px; margin-top: 12px;
+  flex-wrap: wrap;
+  position: relative; z-index: 1;
+}
+
+.rs-item { text-align: center; }
+.rs-val {
+  font-family: var(--font-head);
+  font-size: 1.45rem; font-weight: 800;
+  display: block; line-height: 1; margin-bottom: 3px;
+}
+.rs-lbl { font-size: .6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .09em; }
+.rs-item.g .rs-val { color: var(--correct); }
+.rs-item.r .rs-val { color: var(--wrong); }
+.rs-item.a .rs-val { color: var(--accent); }
+.rs-item.p .rs-val { color: #a78bfa; }
+.rs-sep { width: 3px; height: 3px; border-radius: 50%; background: var(--border-strong); flex-shrink: 0; }
+
+/* ---------- BADGES ---------- */
+.best-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px; border-radius: 50px;
+  background: rgba(251,191,36,.10);
+  border: 1px solid rgba(251,191,36,.35);
+  color: #fbbf24; font-size: .73rem; font-weight: 700;
+  margin-top: 8px; position: relative; z-index: 1;
+  animation: badgePop .4s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes badgePop {
+  from { opacity: 0; transform: scale(.7); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.lesson-complete-badge {
+  display: none; align-items: center; gap: 6px;
+  padding: 4px 12px; border-radius: 50px;
+  background: var(--correct-glow); border: 1px solid var(--correct);
+  color: var(--correct); font-size: .73rem; font-weight: 700;
+  margin-top: 6px; position: relative; z-index: 1;
+}
+.lesson-complete-badge.show { display: inline-flex; animation: badgePop .4s cubic-bezier(.34,1.56,.64,1) both; }
+
+/* ---------- CHARTS + BREAKDOWN ROW ---------- */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 12px;
+}
+
+.results-bottom-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* ---------- CHART CARD ---------- */
+.ch-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 16px 10px;
+  backdrop-filter: blur(12px);
+}
+
+.ch-card h3 {
+  font-family: var(--font-head);
+  font-size: .7rem; font-weight: 700;
+  color: var(--text-dim); margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+  text-transform: uppercase; letter-spacing: .06em;
+}
+
+/* Constrain chart height so it doesn't overflow */
+.ch-card canvas {
+  max-height: 140px !important;
+  height: 140px !important;
+}
+
+/* ---------- BREAKDOWN GRID ---------- */
+.result-breakdown {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 14px 16px;
+  backdrop-filter: blur(12px);
+}
+.result-breakdown h3 {
+  font-family: var(--font-head);
+  font-size: .7rem; font-weight: 700;
+  color: var(--text-dim); margin-bottom: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  display: flex; align-items: center; gap: 6px;
+}
+.rb-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+.rb-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: 8px 10px;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.rb-label { font-size: .58rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; }
+.rb-value { font-family: var(--font-head); font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1; }
+.rb-value.accent  { color: var(--accent); }
+.rb-value.correct { color: var(--correct); }
+.rb-value.wrong   { color: var(--wrong); }
+.rb-value.purple  { color: #a78bfa; }
+
+/* ---------- ACTIONS ROW ---------- */
+.res-actions {
+  display: flex; justify-content: center; gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ---------- WPM HISTORY ---------- */
+.wpm-history {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--r-lg); padding: 14px 16px;
+  backdrop-filter: blur(12px);
+}
+.wpm-history h3 {
+  font-family: var(--font-head); font-size: .7rem; font-weight: 700;
+  color: var(--text-dim); margin-bottom: 10px;
+  text-transform: uppercase; letter-spacing: .06em;
+  display: flex; align-items: center; gap: 6px;
+}
+.wh-list { display: flex; flex-direction: column; gap: 5px; }
+.wh-item { display: flex; align-items: center; gap: 8px; }
+.wh-time { font-size: .66rem; color: var(--text-muted); min-width: 28px; font-family: var(--font-mono); }
+.wh-bar-wrap { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.wh-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), #a78bfa); }
+.wh-wpm { font-family: var(--font-head); font-size: .72rem; font-weight: 700; color: var(--accent); min-width: 28px; text-align: right; }

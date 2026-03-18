@@ -1,0 +1,382 @@
+/* ================================================
+   XVITYPING — BASE STYLES
+   base.css
+================================================ */
+
+/* ---------- RESET ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-ui);
+  font-size: 16px;
+  line-height: 1.6;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background var(--t-slow), color var(--t-slow);
+}
+
+img, svg { display: block; }
+
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button { cursor: pointer; }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* ---------- GRID BACKGROUND ---------- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 50px 50px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.5;
+  transition: opacity var(--t-slow);
+}
+
+/* ---------- AMBIENT ORBS ---------- */
+.orb {
+  position: fixed;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  filter: blur(80px);
+}
+
+.orb-1 {
+  width: 520px;
+  height: 520px;
+  background: radial-gradient(circle, rgba(0,212,177,0.50), transparent 70%);
+  top: -220px;
+  right: -160px;
+  opacity: 0.30;
+  animation: orbFloat1 14s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(124,58,237,0.55), transparent 70%);
+  bottom: -160px;
+  left: -120px;
+  opacity: 0.28;
+  animation: orbFloat2 18s ease-in-out infinite;
+}
+
+@keyframes orbFloat1 {
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(-30px, 25px); }
+}
+@keyframes orbFloat2 {
+  0%, 100% { transform: translate(0, 0); }
+  50%       { transform: translate(25px, -20px); }
+}
+
+/* ---------- CONTAINER ---------- */
+.container {
+  max-width: 100%;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 40px;
+  position: relative;
+  z-index: var(--z-base);
+}
+
+/* ---------- MAIN WRAPPER ---------- */
+main {
+  min-height: calc(100vh - 70px);
+}
+
+/* ---------- SCREENS ---------- */
+.screen {
+  display: none;
+}
+
+.screen.active {
+  display: block;
+  animation: fadeUp var(--t-slow) ease both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- PAGE LOADER ---------- */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--z-loader);
+  transition: opacity var(--t-slow);
+  gap: 14px;
+}
+
+#page-loader .loader-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 24px var(--accent-glow);
+  margin-bottom: 6px;
+}
+
+#page-loader .loader-text {
+  font-family: var(--font-head);
+  font-size: 1.4rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent), #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+#page-loader .loader-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+/* Spinner */
+.spin {
+  width: 36px;
+  height: 36px;
+  border: 3px solid var(--border);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- GHOST INPUT (captures typing) ---------- */
+#ghost-input {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ---------- SCROLLBAR ---------- */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ---------- SECTION HEADER ---------- */
+.sec-hdr {
+  padding: 48px 0 30px;
+}
+
+.sec-hdr h2 {
+  font-family: var(--font-head);
+  font-size: 1.85rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.sec-hdr p {
+  color: var(--text-dim);
+  font-size: 0.92rem;
+}
+
+/* ---------- BADGE ---------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: 50px;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+/* ---------- DIFF BADGE ---------- */
+.diff-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 50px;
+  font-size: 0.67rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.diff-badge.beginner { background: rgba(34,197,94,.12);  color: #22c55e; }
+.diff-badge.easy     { background: rgba(59,130,246,.12); color: #60a5fa; }
+.diff-badge.medium   { background: rgba(245,158,11,.12); color: #fbbf24; }
+.diff-badge.hard     { background: rgba(239,68,68,.12);  color: #f87171; }
+.diff-badge.expert   { background: rgba(168,85,247,.12); color: #c084fc; }
+
+/* ---------- GENERIC BUTTON SYSTEM ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: var(--r-md);
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-base);
+  white-space: nowrap;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #080c14;
+  box-shadow: 0 4px 18px var(--accent-glow);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px var(--accent-glow);
+}
+
+.btn-secondary {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  backdrop-filter: blur(10px);
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+.btn-ghost:hover {
+  border-color: var(--wrong);
+  color: var(--wrong);
+}
+
+.btn-lg {
+  padding: 14px 36px;
+  font-size: 0.92rem;
+  border-radius: var(--r-lg);
+}
+
+.btn-sm {
+  padding: 7px 14px;
+  font-size: 0.78rem;
+  border-radius: var(--r-sm);
+}
+
+/* ---------- ICON BUTTON ---------- */
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t-base);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+.icon-btn:hover,
+.icon-btn.on {
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+
+/* ---------- PROGRESS BAR ---------- */
+.prog-wrap {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.prog-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--accent), #a78bfa);
+  box-shadow: 0 0 10px var(--accent-glow);
+  transition: width 1s linear;
+}
+
+/* ---------- UTILITY ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  white-space: nowrap;
+}
+
+.text-accent  { color: var(--accent); }
+.text-dim     { color: var(--text-dim); }
+.text-muted   { color: var(--text-muted); }
+.text-correct { color: var(--correct); }
+.text-wrong   { color: var(--wrong); }
+
+.fw-600 { font-weight: 600; }
+.fw-700 { font-weight: 700; }
+.fw-800 { font-weight: 800; }
+
+.font-head { font-family: var(--font-head); }
+.font-mono { font-family: var(--font-mono); }

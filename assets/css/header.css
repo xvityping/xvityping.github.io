@@ -1,0 +1,374 @@
+/* ================================================
+   XVITYPING — HEADER STYLES
+   header.css
+================================================ */
+
+/* ---------- HEADER WRAPPER ---------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  padding: 0;
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  background: rgba(8, 12, 20, 0.80);
+  transition: background var(--t-slow), border-color var(--t-slow);
+}
+
+[data-theme="light"] header {
+  background: rgba(240, 244, 251, 0.85);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  height: 64px;
+  flex-wrap: nowrap;
+}
+
+/* ---------- LOGO ---------- */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.logo-box {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 18px var(--accent-glow);
+  flex-shrink: 0;
+  transition: box-shadow var(--t-base), transform var(--t-base);
+}
+
+.logo:hover .logo-box {
+  transform: scale(1.06);
+  box-shadow: 0 0 28px var(--accent-glow);
+}
+
+.logo-text {
+  font-family: var(--font-head);
+  font-size: 1.25rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+/* ---------- NAV PILLS ---------- */
+.nav-pills {
+  display: flex;
+  gap: 3px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 4px;
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.nav-pill {
+  padding: 7px 18px;
+  border-radius: var(--r-sm);
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-family: var(--font-ui);
+  font-size: 0.83rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--t-base);
+  white-space: nowrap;
+}
+
+.nav-pill:hover:not(.active) {
+  color: var(--text);
+  background: var(--border);
+}
+
+.nav-pill.active {
+  background: var(--accent);
+  color: #080c14;
+  font-weight: 700;
+  box-shadow: 0 2px 10px var(--accent-glow);
+}
+
+/* ---------- HEADER RIGHT CONTROLS ---------- */
+.hdr-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ---------- LANGUAGE TOGGLE ---------- */
+.lang-toggle {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--card);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.lang-btn {
+  padding: 7px 13px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--t-base);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.lang-btn:hover:not(.active) {
+  color: var(--text-dim);
+  background: var(--border);
+}
+
+.lang-btn.active {
+  background: var(--accent);
+  color: #080c14;
+  font-weight: 800;
+}
+
+/* Keyboard shortcut hint inside lang button */
+.lang-btn .kbd-hint {
+  font-size: 0.58rem;
+  opacity: 0.65;
+  letter-spacing: 0;
+  font-weight: 500;
+}
+
+/* ---------- SHORTCUT TOOLTIP ---------- */
+.shortcut-tip {
+  position: relative;
+}
+
+.shortcut-tip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--card2);
+  border: 1px solid var(--border-strong);
+  color: var(--text-dim);
+  font-size: 0.7rem;
+  padding: 5px 10px;
+  border-radius: var(--r-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--t-fast);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-sm);
+}
+
+.shortcut-tip:hover::after {
+  opacity: 1;
+}
+
+/* ---------- BACK BUTTON ---------- */
+.back-btn {
+  display: none;                 /* shown only when NOT on home */
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-base);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.back-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.back-btn.visible {
+  display: flex;
+}
+
+/* ---------- INDICATOR ROW (CapsLock / NumLock / ScrollLock) ---------- */
+.indicator-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  backdrop-filter: blur(10px);
+  flex-shrink: 0;
+}
+
+.key-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color var(--t-fast);
+  user-select: none;
+}
+
+.key-indicator .ind-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  transition: background var(--t-fast), box-shadow var(--t-fast);
+}
+
+/* ON state */
+.key-indicator.on {
+  color: var(--accent);
+}
+
+.key-indicator.on .ind-dot {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+
+.key-indicator.caps-on {
+  color: var(--warn);
+}
+
+.key-indicator.caps-on .ind-dot {
+  background: var(--warn);
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.40);
+}
+
+/* Divider between indicators */
+.ind-sep {
+  width: 1px;
+  height: 12px;
+  background: var(--border);
+}
+
+/* ---------- SOUND ICON STATES ---------- */
+#snd-icon-on  { display: block; }
+#snd-icon-off { display: none;  }
+
+.icon-btn.muted #snd-icon-on  { display: none;  }
+.icon-btn.muted #snd-icon-off { display: block; }
+
+/* ---------- THEME ICON STATES ---------- */
+#thm-icon-sun  { display: none;  }
+#thm-icon-moon { display: block; }
+
+[data-theme="light"] #thm-icon-sun  { display: block; }
+[data-theme="light"] #thm-icon-moon { display: none;  }
+
+/* ---------- MOBILE HAMBURGER ---------- */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  background: var(--card);
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--t-base);
+  flex-shrink: 0;
+}
+
+.hamburger span {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--text-dim);
+  border-radius: 2px;
+  transition: all var(--t-base);
+}
+
+.hamburger:hover {
+  border-color: var(--accent);
+}
+
+.hamburger:hover span {
+  background: var(--accent);
+}
+
+/* ---------- MOBILE MENU ---------- */
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 65px;
+  left: 0;
+  right: 0;
+  background: var(--card2);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(28px);
+  z-index: calc(var(--z-header) - 1);
+  padding: 12px 24px 16px;
+  flex-direction: column;
+  gap: 6px;
+  animation: slideDown 0.2s ease;
+}
+
+.mobile-menu.open {
+  display: flex;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.mobile-nav-pill {
+  padding: 10px 16px;
+  border-radius: var(--r-sm);
+  border: none;
+  background: transparent;
+  color: var(--text-dim);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--t-base);
+  width: 100%;
+}
+
+.mobile-nav-pill:hover,
+.mobile-nav-pill.active {
+  background: var(--accent-dim);
+  color: var(--accent);
+}

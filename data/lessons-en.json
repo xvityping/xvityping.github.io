@@ -1,0 +1,242 @@
+[
+  {
+    "id": 1, "title": "Home Row Keys", "desc": "Master asdf jkl — the foundation of touch typing", "diff": "beginner", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "a s d f",           "text": "aaa sss ddd fff aaa sss ddd fff asd fds asdf fdsa asd fds asdf fdsa" },
+      { "part": 2,  "title": "j k l ;",           "text": "jjj kkk lll jkl lkj jkl lkj jkl lkj jkl lkjh jkl lkj jkl lkjh" },
+      { "part": 3,  "title": "Left + Right",       "text": "asdf jkl asdf jkl asdf jkl fdsa lkj fdsa lkj asdf jkl fdsa lkj" },
+      { "part": 4,  "title": "Real Words I",       "text": "add ask fall glad flask slag lads all fall ask dad sad glad lass" },
+      { "part": 5,  "title": "Real Words II",      "text": "fads dads flask skill fill kill hall fall wall call tall lass" },
+      { "part": 6,  "title": "Short Phrases I",    "text": "a sad lad a glad lass all fall ask a lass a dusk falls add a flask" },
+      { "part": 7,  "title": "Short Phrases II",   "text": "dad falls ill a dark hall a flash a flask falls all dads ask" },
+      { "part": 8,  "title": "Mixed Speed I",      "text": "ask fall flask dads glad lads hall lass skill fill all fall ask sad" },
+      { "part": 9,  "title": "Mixed Speed II",     "text": "a lad falls in a dark hall all dads ask a flask of dark glass" },
+      { "part": 10, "title": "Home Row Mastery",   "text": "a glad lad falls in a dark hall all dads ask flask a flash of glass falls" }
+    ]
+  },
+  {
+    "id": 2, "title": "Top Row — QWERTY", "desc": "Reach up to qwertyuiop without looking down", "diff": "beginner", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "q w e r",           "text": "qqq www eee rrr qwe ewq qwer rewq qwe ewq qwer rewq qw ew re" },
+      { "part": 2,  "title": "t y u i",           "text": "ttt yyy uuu iii tyu iut tyui iuyt tyu iut tyui iuyt ty uy iu" },
+      { "part": 3,  "title": "o p",               "text": "ooo ppp opo pop opp poo opo pop opp poo opo pop opp poo opo" },
+      { "part": 4,  "title": "Full Top Row",      "text": "qwer tyui op qwerty uiop qwer tyui qwerty uiop qwer tyui op" },
+      { "part": 5,  "title": "Real Words I",      "text": "type quit wore pure tire wire riot pyre rote poet true write" },
+      { "part": 6,  "title": "Real Words II",     "text": "tower power quite write upper queer outed terry tower power" },
+      { "part": 7,  "title": "Top + Home I",      "text": "the for you who pay try yet put our top row keys help a lot" },
+      { "part": 8,  "title": "Top + Home II",     "text": "quit the task type your words write a poet try your power" },
+      { "part": 9,  "title": "Phrases",           "text": "try to type well put your fingers on the row write your words" },
+      { "part": 10, "title": "Top Row Mastery",   "text": "type your words with power quit the poor route write a quite tidy poem" }
+    ]
+  },
+  {
+    "id": 3, "title": "Bottom Row — ZXCV", "desc": "Master zxcvbnm — the challenging lower stretch", "diff": "beginner", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "z x c",            "text": "zzz xxx ccc zxc cxz zxc cxz zxz xcx czc zxc cxz zxc cxz" },
+      { "part": 2,  "title": "v b n",            "text": "vvv bbb nnn vbn nbv vbn nbv vbv bnb nvn vbn nbv vbn nbv" },
+      { "part": 3,  "title": "m",                "text": "mmm mam mum mad max mix man mob more mime memo mmm mam mum" },
+      { "part": 4,  "title": "Full Bottom Row",  "text": "zxcv bnm zxcv bnm zxcvbnm mnbvcxz zxcv bnm zxcvbnm" },
+      { "part": 5,  "title": "Real Words I",     "text": "max mix zinc vex box cab nab zen van ban cave maze venom" },
+      { "part": 6,  "title": "Real Words II",    "text": "black crux blank exam flex calm vibe next zone calm number" },
+      { "part": 7,  "title": "Bottom + Home",    "text": "max and mix can vex men box lab cab van mad add max and mix" },
+      { "part": 8,  "title": "All Rows I",       "text": "the max zinc box can vex men black cab zone calm blank exam" },
+      { "part": 9,  "title": "All Rows II",      "text": "mix black venom cave zone box can max blank crux calm flex" },
+      { "part": 10, "title": "Bottom Mastery",   "text": "the quick black box can vex men mix zinc blank cave zone calm flex" }
+    ]
+  },
+  {
+    "id": 4, "title": "Common Short Words", "desc": "The most frequent 3-4 letter English words", "diff": "easy", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "the and for",      "text": "the the and and for for the and for the and for the and for" },
+      { "part": 2,  "title": "are but not",      "text": "are are but but not not are but not are but not are but not" },
+      { "part": 3,  "title": "you all can",      "text": "you you all all can can you all can you all can you all can" },
+      { "part": 4,  "title": "had was one",      "text": "had had was was one one had was one had was one had was one" },
+      { "part": 5,  "title": "our out day",      "text": "our out day our out day our out day our out day our out day" },
+      { "part": 6,  "title": "get has him",      "text": "get get has has him him get has him get has him get has him" },
+      { "part": 7,  "title": "how new now",      "text": "how how new new now now how new now how new now how new now" },
+      { "part": 8,  "title": "see two way",      "text": "see see two two way way see two way see two way see two way" },
+      { "part": 9,  "title": "Phrases",          "text": "the way you can see two new things all day and get them now" },
+      { "part": 10, "title": "Common Mastery",   "text": "the way you can see all one day get two new things now and had them" }
+    ]
+  },
+  {
+    "id": 5, "title": "Everyday Vocabulary", "desc": "5-7 letter common English words", "diff": "easy", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "about after",      "text": "about after about after about after about after about after" },
+      { "part": 2,  "title": "below could",      "text": "below could below could below could below could below could" },
+      { "part": 3,  "title": "every first",      "text": "every first every first every first every first every first" },
+      { "part": 4,  "title": "found great",      "text": "found great found great found great found great found great" },
+      { "part": 5,  "title": "house large",      "text": "house large learn never other place house large learn never" },
+      { "part": 6,  "title": "point right",      "text": "point right small sound spell point right small sound spell" },
+      { "part": 7,  "title": "still think",      "text": "still study their there thing think three still study their" },
+      { "part": 8,  "title": "water where",      "text": "water where which world would write water where which world" },
+      { "part": 9,  "title": "Phrases",          "text": "every great house found after first could about the large still world" },
+      { "part": 10, "title": "Vocab Mastery",    "text": "about every great house found after first could large still world think right" }
+    ]
+  },
+  {
+    "id": 6, "title": "Simple Sentences", "desc": "Full sentences with basic punctuation", "diff": "easy", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "Short Pairs I",    "text": "The cat sat. A dog ran. The cat sat. A dog ran. The cat sat." },
+      { "part": 2,  "title": "Short Pairs II",   "text": "She reads books. He plays well. She reads books. He plays well." },
+      { "part": 3,  "title": "Short Pairs III",  "text": "They went today. The sun is warm. They went today. The sun is warm." },
+      { "part": 4,  "title": "Medium S1",        "text": "The cat sat on the mat. A big dog ran very fast down the road." },
+      { "part": 5,  "title": "Medium S2",        "text": "She likes to read good books. He can play the piano well each day." },
+      { "part": 6,  "title": "Medium S3",        "text": "They went to the park today. The sun is very bright and warm here." },
+      { "part": 7,  "title": "Medium S4",        "text": "Birds sing in the morning air. The wind blows through tall green trees." },
+      { "part": 8,  "title": "Combined I",       "text": "The cat sat on the mat and a big dog ran fast. She likes books." },
+      { "part": 9,  "title": "Combined II",      "text": "Birds sing each morning and the wind blows through the tall green trees." },
+      { "part": 10, "title": "Sentence Mastery", "text": "The cat sat on the mat. A big dog ran fast. She likes to read good books each day." }
+    ]
+  },
+  {
+    "id": 7, "title": "Numbers Flow", "desc": "Weave numbers naturally into your typing", "diff": "easy", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "1 2 3 4 5",        "text": "1 2 3 4 5 1 2 3 4 5 12 23 34 45 51 123 234 345 451 512" },
+      { "part": 2,  "title": "6 7 8 9 0",        "text": "6 7 8 9 0 6 7 8 9 0 67 78 89 90 06 678 789 890 906 067" },
+      { "part": 3,  "title": "Full Number Row",   "text": "1234567890 0987654321 1234567890 0987654321 12345 67890" },
+      { "part": 4,  "title": "Numbers in Words",  "text": "3 cats 7 fish room 404 floor 12 call 5 times 9pm order 42" },
+      { "part": 5,  "title": "Dates",             "text": "01 jan 2024 15 march 2025 07 july 2023 31 dec 2025" },
+      { "part": 6,  "title": "Prices",            "text": "$3.50 $12.99 $100.00 $4.75 $88.50 $3.50 $12.99 $100.00" },
+      { "part": 7,  "title": "Phone Numbers",     "text": "555-1234 800-4567 123-4567 555-8900 123-0000 555-1234" },
+      { "part": 8,  "title": "Mixed I",           "text": "the 3 cats ate 7 fish room 404 is on floor 12 call 555-1234" },
+      { "part": 9,  "title": "Mixed II",          "text": "order 42 boxes at $3.50 each meet at 8am on march 15 2025" },
+      { "part": 10, "title": "Number Mastery",    "text": "order 42 boxes at $3.50 each meet at 8am on march 15 2025 call 555-1234" }
+    ]
+  },
+  {
+    "id": 8, "title": "Symbols & Punctuation", "desc": "Apostrophes, dashes, brackets and more", "diff": "easy", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "Period & Comma",   "text": "cat. dog. run. jump. cat, dog, run, cat. dog, cat. dog, run." },
+      { "part": 2,  "title": "Question & Bang",  "text": "run? jump? go? stop! go? stop! run? jump? go? stop! run?" },
+      { "part": 3,  "title": "Apostrophe",       "text": "it's can't don't won't it's can't don't won't it's can't" },
+      { "part": 4,  "title": "Colon & Semi",     "text": "note: done; note: done; wait: go; note: done; wait: go;" },
+      { "part": 5,  "title": "Dash & Hyphen",    "text": "wait - stop well-done wait - stop well-done wait - stop" },
+      { "part": 6,  "title": "Brackets",         "text": "(done) [ok] (done) [ok] (wait) [go] (done) [ok] (wait)" },
+      { "part": 7,  "title": "Mixed I",          "text": "it's a beautiful day, isn't it? she said hello! wait - stop." },
+      { "part": 8,  "title": "Mixed II",         "text": "the price was $12.50, not $15.00. wait - who's there?" },
+      { "part": 9,  "title": "Mixed III",        "text": "I can't believe it's already midnight. the result (if correct) will show (true)." },
+      { "part": 10, "title": "Symbol Mastery",   "text": "it's a beautiful day, isn't it? she said 'hello!' the price was $12.50, not $15.00." }
+    ]
+  },
+  {
+    "id": 9, "title": "Medium Paragraphs", "desc": "Longer passages with varied vocabulary", "diff": "medium", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "Nature I",         "text": "The sun rises every morning over distant mountains painting the sky in shades of gold and pink." },
+      { "part": 2,  "title": "Nature II",        "text": "Rivers flow through valleys carrying water to the sea while birds fly overhead in the clear blue sky." },
+      { "part": 3,  "title": "People I",         "text": "People gather to celebrate important events in their lives sharing food laughter and old warm memories." },
+      { "part": 4,  "title": "People II",        "text": "Children run and play in the warm afternoon sun while parents watch from the shade of tall trees." },
+      { "part": 5,  "title": "Technology I",     "text": "Technology changes how we live and work each passing decade bringing new tools and new ways of thinking." },
+      { "part": 6,  "title": "Technology II",    "text": "Computers connect people across the world sharing ideas and information at the speed of light every day." },
+      { "part": 7,  "title": "Learning I",       "text": "Knowledge grows through curiosity and persistent daily practice reading widely and asking good questions." },
+      { "part": 8,  "title": "Learning II",      "text": "The best students are those who never stop questioning and always seek to understand the world more deeply." },
+      { "part": 9,  "title": "Mixed Para",       "text": "The sun rises over mountains while people gather below. Technology connects us all and knowledge grows each day." },
+      { "part": 10, "title": "Para Mastery",     "text": "Technology changes how we live each decade. Computers connect people sharing ideas while knowledge grows through curiosity and practice." }
+    ]
+  },
+  {
+    "id": 10, "title": "Speed Pangrams", "desc": "Classic pangrams and rhythm drills for speed", "diff": "medium", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "Quick Fox x1",     "text": "the quick brown fox jumps over the lazy dog" },
+      { "part": 2,  "title": "Quick Fox x2",     "text": "the quick brown fox jumps over the lazy dog the quick brown fox jumps over the lazy dog" },
+      { "part": 3,  "title": "Liquor Jugs",      "text": "pack my box with five dozen liquor jugs pack my box with five dozen liquor jugs" },
+      { "part": 4,  "title": "Daft Zebras",      "text": "how vexingly quick daft zebras jump how vexingly quick daft zebras jump" },
+      { "part": 5,  "title": "Boxing Wizards",   "text": "the five boxing wizards jumped quickly the five boxing wizards jumped quickly" },
+      { "part": 6,  "title": "Sphinx",           "text": "sphinx of black quartz judge my vow sphinx of black quartz judge my vow" },
+      { "part": 7,  "title": "Two Pangrams",     "text": "the quick brown fox jumps over the lazy dog pack my box with five dozen liquor jugs" },
+      { "part": 8,  "title": "Three Pangrams",   "text": "the quick brown fox jumps over the lazy dog how vexingly quick daft zebras jump" },
+      { "part": 9,  "title": "Speed Drill",      "text": "quick brown fox lazy dog pack five dozen daft zebras boxing wizards sphinx quartz" },
+      { "part": 10, "title": "Pangram Master",   "text": "the quick brown fox jumps over the lazy dog pack my box with five dozen liquor jugs sphinx of black quartz judge my vow" }
+    ]
+  },
+  {
+    "id": 11, "title": "Tech & Code Vocab", "desc": "Programming keywords and developer terms", "diff": "medium", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "Variables",        "text": "function array object variable return boolean integer string null undefined" },
+      { "part": 2,  "title": "Async / Promise",  "text": "async await fetch promise resolve reject callback then catch finally" },
+      { "part": 3,  "title": "OOP",              "text": "class extends constructor prototype inheritance polymorphism abstraction encapsulation" },
+      { "part": 4,  "title": "Algorithms",       "text": "algorithm complexity recursion iteration sorting searching binary tree graph" },
+      { "part": 5,  "title": "Web Frontend",     "text": "html css javascript react component state props render lifecycle hook" },
+      { "part": 6,  "title": "Database",         "text": "database query select insert update delete join table index schema" },
+      { "part": 7,  "title": "DevOps",           "text": "docker kubernetes container deploy pipeline build test lint staging production" },
+      { "part": 8,  "title": "Git",              "text": "git commit push pull branch merge rebase clone fork origin remote" },
+      { "part": 9,  "title": "Mixed Code I",     "text": "async function fetchData returns promise resolve reject catch error finally" },
+      { "part": 10, "title": "Tech Mastery",     "text": "async function array returns boolean promise resolve reject algorithm complexity recursion" }
+    ]
+  },
+  {
+    "id": 12, "title": "Punctuation Pro", "desc": "Advanced punctuation — apostrophes, dashes, ellipsis", "diff": "hard", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "Contractions",     "text": "it's can't won't don't I'm we're they're she's he's isn't" },
+      { "part": 2,  "title": "Em Dash",          "text": "wait - who is there - nobody stop - go - now - wait - who" },
+      { "part": 3,  "title": "Ellipsis",         "text": "wait... stop... go... now... wait... stop... go... now..." },
+      { "part": 4,  "title": "Mixed Hard I",     "text": "it's a beautiful day, isn't it? she said 'hello there!' wait - who's there?" },
+      { "part": 5,  "title": "Mixed Hard II",    "text": "the price was $12.50, not $15.00. I can't believe it's already midnight." },
+      { "part": 6,  "title": "Parentheses",      "text": "the result (if correct) will show (true) otherwise (false) check again (now)" },
+      { "part": 7,  "title": "Colon Lists",      "text": "the items are: first, second, third. the colors are: red, green, blue." },
+      { "part": 8,  "title": "Full Mixed I",     "text": "it's a beautiful day, isn't it? the price was $12.50 (not $15.00) - check again." },
+      { "part": 9,  "title": "Full Mixed II",    "text": "I can't believe it's midnight already! wait - who's there? the result (if true) shows now." },
+      { "part": 10, "title": "Punct Mastery",    "text": "it's a beautiful day, isn't it? she said 'hello!' the price was $12.50, not $15.00 - I can't believe it." }
+    ]
+  },
+  {
+    "id": 13, "title": "Long Paragraphs", "desc": "Extended passages for endurance and consistency", "diff": "hard", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "Science I",        "text": "The universe is under no obligation to make sense to you. We are all connected biologically to the earth and atomically to the universe." },
+      { "part": 2,  "title": "Science II",       "text": "Not only are we in the universe the universe is in us. Every atom in your body came from a star that exploded long ago." },
+      { "part": 3,  "title": "Philosophy I",     "text": "The unexamined life is not worth living. Wisdom begins in wonder and ends in understanding the world around you deeply." },
+      { "part": 4,  "title": "Philosophy II",    "text": "In the middle of every difficulty lies opportunity. Imagination is more important than knowledge for it is the preview of life." },
+      { "part": 5,  "title": "History I",        "text": "Those who cannot remember the past are condemned to repeat it. History is the story of humanity written across thousands of years." },
+      { "part": 6,  "title": "History II",       "text": "Great civilizations rise and fall leaving behind art language and ideas that shape the world for all who come after them." },
+      { "part": 7,  "title": "Literature I",     "text": "It was the best of times it was the worst of times it was the age of wisdom it was the age of foolishness." },
+      { "part": 8,  "title": "Literature II",    "text": "Call me Ishmael. Some years ago never mind how long precisely having little money I thought I would sail about a little." },
+      { "part": 9,  "title": "Mixed Long",       "text": "The universe is under no obligation to make sense. In the middle of difficulty lies opportunity. The unexamined life is not worth living." },
+      { "part": 10, "title": "Long Mastery",     "text": "Not only are we in the universe the universe is in us. Every atom in your body came from a star. Wisdom begins in wonder and ends in understanding." }
+    ]
+  },
+  {
+    "id": 14, "title": "Speed Challenge", "desc": "High-speed drills to push your personal limits", "diff": "hard", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "Rhythm I",         "text": "the the the and and and for for for you you you the and for you the" },
+      { "part": 2,  "title": "Rhythm II",        "text": "type type type fast fast fast type fast type fast type fast now now" },
+      { "part": 3,  "title": "Alt Hands I",      "text": "the fur it or an is he if us so do me by go my we to of in" },
+      { "part": 4,  "title": "Alt Hands II",     "text": "if he is to do it by us we go my or so the fur an of in me" },
+      { "part": 5,  "title": "Repeat Words",     "text": "the the the for the the for the and the and for the and you the" },
+      { "part": 6,  "title": "Short Burst I",    "text": "go now go fast go well go type go word go keys go home go fast" },
+      { "part": 7,  "title": "Short Burst II",   "text": "run fast run hard run well run far run long run deep run run run" },
+      { "part": 8,  "title": "Mixed Speed I",    "text": "the quick brown fox jumps the quick brown the quick brown fox" },
+      { "part": 9,  "title": "Mixed Speed II",   "text": "type as fast as you can push your speed up words per minute now" },
+      { "part": 10, "title": "Speed Mastery",    "text": "the quick brown fox jumps over the lazy dog type as fast as you can now push your speed up to the limit" }
+    ]
+  },
+  {
+    "id": 15, "title": "Expert Passages", "desc": "Literary and academic paragraphs at expert level", "diff": "expert", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "Cosmos I",         "text": "The universe is under no obligation to make sense to you. We are all connected to each other biologically to the earth chemically." },
+      { "part": 2,  "title": "Cosmos II",        "text": "Not only are we in the universe the universe is in us. I do not know of any deeper spiritual feeling than knowing you are made of star stuff." },
+      { "part": 3,  "title": "Psychology I",     "text": "The greatest discovery of my generation is that human beings can alter their lives by altering their attitudes of mind and their beliefs." },
+      { "part": 4,  "title": "Psychology II",    "text": "Between stimulus and response there is a space. In that space is our power to choose our response. In our response lies our growth." },
+      { "part": 5,  "title": "Economics I",      "text": "In the long run we are all dead. Economists set themselves too easy a task if in tempestuous seasons they can only tell us that when the storm is long past the ocean is flat again." },
+      { "part": 6,  "title": "Physics I",        "text": "Imagination is more important than knowledge. Knowledge is limited whereas imagination encircles the world and points to all there will ever be." },
+      { "part": 7,  "title": "Physics II",       "text": "If you cannot explain it simply you do not understand it well enough. Everything should be made as simple as possible but not simpler." },
+      { "part": 8,  "title": "Biology I",        "text": "Nothing in biology makes sense except in the light of evolution. Life is the most extraordinary phenomenon in the known universe." },
+      { "part": 9,  "title": "Mixed Expert",     "text": "Between stimulus and response there is a space. Not only are we in the universe the universe is in us. Imagination encircles the world." },
+      { "part": 10, "title": "Expert Mastery",   "text": "The universe is under no obligation to make sense to you. Between stimulus and response is a space. In that space is our power to choose our response." }
+    ]
+  },
+  {
+    "id": 16, "title": "Infinity Mode", "desc": "Endless online-generated text — never the same twice", "diff": "expert", "lang": "en",
+    "parts": [
+      { "part": 1,  "title": "Random Words I",   "text": "__FETCH_WORDS__" },
+      { "part": 2,  "title": "Random Quote I",   "text": "__FETCH_QUOTE__" },
+      { "part": 3,  "title": "Random Words II",  "text": "__FETCH_WORDS__" },
+      { "part": 4,  "title": "Random Quote II",  "text": "__FETCH_QUOTE__" },
+      { "part": 5,  "title": "Random Words III", "text": "__FETCH_WORDS__" },
+      { "part": 6,  "title": "Random Quote III", "text": "__FETCH_QUOTE__" },
+      { "part": 7,  "title": "Random Words IV",  "text": "__FETCH_WORDS__" },
+      { "part": 8,  "title": "Random Quote IV",  "text": "__FETCH_QUOTE__" },
+      { "part": 9,  "title": "Random Words V",   "text": "__FETCH_WORDS__" },
+      { "part": 10, "title": "Random Quote V",   "text": "__FETCH_QUOTE__" }
+    ]
+  }
+]
