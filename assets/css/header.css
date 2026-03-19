@@ -374,7 +374,8 @@ header {
 }
 .logo-img {
   height: 120px;
-  width: auto;
+  position: relative;
+ 
   display: block;
   transition: opacity 0.3s;
 }
@@ -386,14 +387,4 @@ header {
 /* Light theme → light logo দেখাবে, dark লুকাবে */
 [data-theme="light"] .logo-dark  { display: none; }
 [data-theme="light"] .logo-light { display: block; }
-```
 
----
-
-**File রাখো:**
-```
-xvityping/
-  assets/
-    img/
-      logo-dark.png    ← dark theme এর logo
-      logo-light.png   ← light theme এর logo
