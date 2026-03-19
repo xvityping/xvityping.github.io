@@ -687,3 +687,32 @@
 .empty-state p {
   font-size: 0.9rem;
 }
+
+/* ---------- SCROLL HINT ---------- */
+.scroll-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: .72rem;
+  color: var(--text-muted);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 14px 0 8px;
+  cursor: default;
+  user-select: none;
+  animation: scrollBounce 2s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); opacity: .6; }
+  50%       { transform: translateY(4px); opacity: 1; }
+}
+
+/* ---------- RECENT SECTION ---------- */
+.recent-row {
+  margin-top: 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+  margin-bottom: 48px;
+}

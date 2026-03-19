@@ -253,6 +253,22 @@ function onKey(e) {
   /* Only handle typing on test screen */
   if (S.screen !== 'test') return;
 
+  /* ── Enter key: go to next part when overlay is shown ── */
+  if (e.key === 'Enter' && S.waitingForNext) {
+    e.preventDefault();
+    goToNextPart();
+    return;
+  }
+
+  /* ── Space or Enter: dismiss overlay and retry ── */
+  if ((e.key === ' ' || e.key === 'Escape') && S.waitingForNext) {
+    e.preventDefault();
+    hidePartComplete();
+    S.waitingForNext = false;
+    doRestart();
+    return;
+  }
+
   /* Auto-start on first key if not running */
   if (!S.running && !S.paused && S.chars.length > 0) {
     if (e.key.length === 1 || e.key === 'Backspace') {
@@ -475,6 +491,7 @@ function showPartComplete(wpm, acc) {
 function hidePartComplete() {
   const ov = document.getElementById('part-complete-overlay');
   if (ov) ov.classList.remove('show');
+  S.waitingForNext = false;
 }
 
 /* ================================================

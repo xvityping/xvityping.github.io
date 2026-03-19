@@ -49,6 +49,7 @@ const S = {
   lesson:     null,        // current lesson object from JSON
   lessonLang: 'en',        // 'en' | 'bn'
   partIdx:    0,           // 0-9 (part index inside lesson)
+  waitingForNext: false,   // true when part-complete overlay is shown
 
   /* ---------- CHARTS ---------- */
   wpmChart: null,

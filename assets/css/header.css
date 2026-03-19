@@ -372,3 +372,28 @@ header {
   background: var(--accent-dim);
   color: var(--accent);
 }
+.logo-img {
+  height: 120px;
+  width: auto;
+  display: block;
+  transition: opacity 0.3s;
+}
+
+/* Dark theme → dark logo দেখাবে, light লুকাবে */
+[data-theme="dark"]  .logo-light { display: none; }
+[data-theme="dark"]  .logo-dark  { display: block; }
+
+/* Light theme → light logo দেখাবে, dark লুকাবে */
+[data-theme="light"] .logo-dark  { display: none; }
+[data-theme="light"] .logo-light { display: block; }
+```
+
+---
+
+**File রাখো:**
+```
+xvityping/
+  assets/
+    img/
+      logo-dark.png    ← dark theme এর logo
+      logo-light.png   ← light theme এর logo

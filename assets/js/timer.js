@@ -294,31 +294,11 @@ function finishTest() {
 
   beep('win');
 
-  /* Mark part as done if in lesson */
-  if (S.lesson) {
-    storageMarkDone(S.lesson.id, S.partIdx + 1);
-
-    /* Check if all parts done */
-    if (storageIsLessonDone(S.lesson.id)) {
-      beep('best');
-      toast(
-        S.lang === 'bn'
-          ? `পাঠ সম্পন্ন: ${S.lesson.title}`
-          : `Lesson complete: ${S.lesson.title}`,
-        's'
-      );
-    }
-  }
-
-  /* Increment test count and add time */
+  /* Common saves */
   storageIncrTests();
   storageAddTime(elapsed);
-
-  /* Update best score */
   const isNewBest = storageUpdateBest(wpm, acc, cpm);
   if (isNewBest) beep('best');
-
-  /* Save recent score */
   storagePushRecent({
     wpm, acc, errors: errs,
     time: elapsed,
@@ -327,6 +307,100 @@ function finishTest() {
     date: new Date().toLocaleDateString(),
   });
 
-  /* Show results */
+  /* ── LESSON MODE — show part-complete overlay ── */
+  if (S.lesson) {
+    storageMarkDone(S.lesson.id, S.partIdx + 1);
+    savePartBest(S.lesson.id, S.partIdx, wpm);
+
+    const totalParts = S.lesson.parts.length;
+    const hasNext    = S.partIdx + 1 < totalParts;
+    const lessonDone = storageIsLessonDone(S.lesson.id, totalParts);
+
+    if (lessonDone) {
+      beep('best');
+      toast(
+        S.lang === 'bn'
+          ? `পাঠ সম্পন্ন: ${S.lesson.title}`
+          : `Lesson complete: ${S.lesson.title}`,
+        's'
+      );
+    }
+
+    /* Show part-complete overlay */
+    showPartCompleteOverlay(wpm, acc, hasNext);
+
+    /* Enable Enter key → next part */
+    S.waitingForNext = true;
+    return;
+  }
+
+  /* ── FREE TEST — go to results screen ── */
   showResults(wpm, acc, cpm, errs, elapsed, isNewBest);
+}
+
+/* ================================================
+   SHOW PART COMPLETE OVERLAY
+================================================ */
+
+function showPartCompleteOverlay(wpm, acc, hasNext) {
+  const ov = el('part-complete-overlay');
+  if (!ov) return;
+
+  const wpmEl  = ov.querySelector('.pco-wpm');
+  const subEl  = ov.querySelector('.pco-sub');
+  const nextBtn = el('next-part-btn');
+
+  if (wpmEl) wpmEl.textContent = wpm;
+  if (subEl) subEl.textContent = acc + '% accuracy';
+
+  /* Show/hide Next Part button */
+  if (nextBtn) {
+    if (hasNext) {
+      nextBtn.style.display = 'inline-flex';
+      nextBtn.onclick = goToNextPart;
+      nextBtn.innerHTML = `
+        Next Part
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>`;
+    } else {
+      nextBtn.style.display = 'none';
+    }
+  }
+
+  ov.classList.add('show');
+  el('ghost-input')?.focus();
+}
+
+/* ================================================
+   GO TO NEXT PART
+================================================ */
+
+function goToNextPart() {
+  if (!S.lesson) return;
+  const nextIdx = S.partIdx + 1;
+  if (nextIdx >= S.lesson.parts.length) return;
+
+  hidePartComplete();
+  S.waitingForNext = false;
+
+  /* Unlock + start next part */
+  S.partIdx = nextIdx;
+  const text = S.lesson.parts[nextIdx].text;
+
+  if (text === '__FETCH_WORDS__' || text === '__FETCH_QUOTE__' ||
+      text === '__FETCH_BN_WORDS__' || text === '__FETCH_BN_QUOTE__') {
+    fetchText();
+  } else {
+    initTest(text);
+  }
+
+  updateLessonInfoBar();
+  toast(
+    S.lang === 'bn'
+      ? `অংশ ${nextIdx + 1} / ${S.lesson.parts.length}`
+      : `Part ${nextIdx + 1} / ${S.lesson.parts.length}`,
+    'i'
+  );
 }
