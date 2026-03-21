@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="XviTyping — Master touch typing with structured lessons, Unijoy Bangla support and real-time analytics.">
-  <title>XviTyping — Master Your Speed</title>
+  <meta name="description" content="XviTyping — Master touch typing with structured lessons, Unijoy Bangla keyboard support and real-time analytics. Free typing speed test in English and Bangla.">
+  <meta name="keywords" content="typing test, typing speed, WPM, typing practice, Bangla typing, Unijoy, typing lessons, keyboard">
+  <meta name="author" content="XviTyping">
+  <meta property="og:title" content="XviTyping — Master Your Typing Speed">
+  <meta property="og:description" content="Free typing speed test with structured lessons. Supports English and Bangla Unijoy keyboard layout.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="XviTyping — Master Your Speed">
+  <title>XviTyping — Free Typing Speed Test | English & Bangla</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,7 +70,9 @@
 ============================================== -->
 <input type="text" id="ghost-input"
   autocomplete="off" autocorrect="off"
-  autocapitalize="off" spellcheck="false">
+  autocapitalize="off" spellcheck="false"
+  inputmode="text"
+  style="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-1;font-size:16px">
 
 <!-- =============================================
      MOBILE MENU
@@ -89,18 +98,23 @@
     <div class="header-inner">
 
       <!-- Logo -->
-     <div class="logo" onclick="nav('home')">
-  <!-- Dark theme logo -->
-  <img class="logo-img logo-dark"
-       src="assets/img/logo-dark.png"
-       alt="XviTyping"
-       height="36">
-  <!-- Light theme logo -->
-  <img class="logo-img logo-light"
-       src="assets/img/logo-light.png"
-       alt="XviTyping"
-       height="36">
-</div>
+      <div class="logo" onclick="nav('home')">
+        <div class="logo-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="6" width="20" height="13" rx="2.5" stroke="white" stroke-width="1.7"/>
+            <rect x="5" y="10" width="2" height="2" rx=".6" fill="white"/>
+            <rect x="9" y="10" width="2" height="2" rx=".6" fill="white"/>
+            <rect x="13" y="10" width="2" height="2" rx=".6" fill="white"/>
+            <rect x="17" y="10" width="2" height="2" rx=".6" fill="white"/>
+            <rect x="5" y="14" width="6" height="2" rx="1" fill="white"/>
+            <rect x="13" y="14" width="6" height="2" rx="1" fill="white"/>
+          </svg>
+        </div>
+       <img src="assets/img/xvityping-drk.png" alt="XviTyping" class="logo-img logo-dark" style="height:52px;width:auto">
+<img src="assets/img/xvityping-lgt.png" alt="XviTyping" class="logo-img logo-light" style="height:52px;width:auto">
+
+
+      </div>
 
       <!-- Desktop Nav -->
       <nav class="nav-pills">
@@ -161,6 +175,14 @@
           </svg>
         </button>
 
+        <!-- Volume slider -->
+        <div style="display:flex;align-items:center;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:var(--r-md);padding:6px 10px;backdrop-filter:blur(10px)">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+          <input type="range" id="vol-slider" min="0" max="100" value="50"
+            style="width:64px;accent-color:var(--accent);cursor:pointer"
+            oninput="setVolume(this.value/100)" onchange="setVolume(this.value/100)" title="Volume">
+        </div>
+
         <!-- Theme -->
         <button class="icon-btn shortcut-tip" id="thm-btn"
                 onclick="toggleTheme()" data-tip="Toggle theme">
@@ -181,7 +203,13 @@
         <!-- Hamburger -->
         <button class="hamburger" id="hamburger-btn"
                 onclick="toggleMobileMenu()">
-          <span></span><span></span><span></span>
+          <svg class="ham-icon" width="22" height="22" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor" stroke-width="2.2"
+               stroke-linecap="round">
+            <line class="ham-l1" x1="3" y1="6"  x2="21" y2="6"/>
+            <line class="ham-l2" x1="3" y1="12" x2="21" y2="12"/>
+            <line class="ham-l3" x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
         </button>
 
       </div>
@@ -352,7 +380,6 @@
   </div>
 
   <!-- Scroll hint -->
-   <div style="height:45px"></div>
   <div class="scroll-hint" id="scroll-hint">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <path d="M12 5v14M5 12l7 7 7-7"/>
@@ -476,24 +503,17 @@
       </div>
     </div>
 
-    <!-- Timer mode selector -->
-    <div class="timer-controls">
-      <div class="t-modes">
-        <button class="t-mode active" id="tm-60"
-                onclick="setTimerMode(60,this)">1 min</button>
-        <button class="t-mode" id="tm-120"
-                onclick="setTimerMode(120,this)">2 min</button>
-        <button class="t-mode" id="tm-300"
-                onclick="setTimerMode(300,this)">5 min</button>
-        <button class="t-mode" id="tm-c"
-                onclick="setTimerMode('custom',this)">
-          <div class="custom-sec-wrap">
-            <input id="custom-sec" type="number" class="custom-num"
-                   value="90" min="10" max="600">s
-          </div>
+    <!-- Timer mode selector — hidden in lesson mode -->
+    <div class="timer-controls" id="timer-controls-wrap">
+      <div class="t-modes" id="timer-modes-bar">
+        <button class="t-mode active" id="tm-60"  onclick="setTimerMode(60,this)">1 min</button>
+        <button class="t-mode"        id="tm-180" onclick="setTimerMode(180,this)">3 min</button>
+        <button class="t-mode"        id="tm-300" onclick="setTimerMode(300,this)">5 min</button>
+        <button class="t-mode"        id="tm-c"   onclick="setTimerMode('custom',this)">
+          <input id="custom-min" type="number" class="custom-num" value="2" min="1" max="60"
+            onclick="event.stopPropagation()" onchange="customTimerChanged()">m
         </button>
-        <button class="t-mode" id="tm-inf"
-                onclick="setTimerMode('inf',this)">∞</button>
+        <button class="t-mode" id="tm-inf" onclick="setTimerMode('inf',this)">∞</button>
       </div>
       <!-- Progress bar -->
       <div class="prog-wrap test-progress">
@@ -515,8 +535,9 @@
     <div class="lib-part-dots"></div>
   </div>
 
-  <!-- Text card -->
-  <div class="text-card centered" id="text-card">
+  <!-- Text card — tap to focus keyboard on mobile -->
+  <div class="text-card centered" id="text-card"
+       onclick="document.getElementById('ghost-input').focus()">
 
     <!-- Hint state -->
     <div id="hint-state" class="start-hint">
@@ -675,57 +696,12 @@
 <div class="screen" id="screen-results">
 <div class="results-wrap">
 
-  <!-- HERO -->
-  <div class="res-hero">
-    <div class="res-done">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8">
-        <circle cx="12" cy="8" r="7"/>
-        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
-      </svg>
-      Test Complete
-    </div>
-    <div class="wpm-giant" id="r-wpm">0</div>
-    <div class="wpm-sub">Words Per Minute</div>
-    <div class="res-stats">
-      <div class="rs-item g"><span class="rs-val" id="r-acc">--%</span><span class="rs-lbl">Accuracy</span></div>
-      <div class="rs-sep"></div>
-      <div class="rs-item r"><span class="rs-val" id="r-err">--</span><span class="rs-lbl">Errors</span></div>
-      <div class="rs-sep"></div>
-      <div class="rs-item a"><span class="rs-val" id="r-time">--</span><span class="rs-lbl">Time</span></div>
-      <div class="rs-sep"></div>
-      <div class="rs-item a"><span class="rs-val" id="r-chars">--</span><span class="rs-lbl">Chars</span></div>
-      <div class="rs-sep"></div>
-      <div class="rs-item p"><span class="rs-val" id="r-cpm">--</span><span class="rs-lbl">CPM</span></div>
-    </div>
-    <div id="best-wrap" style="display:none">
-      <div class="best-badge">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M6 9H4a2 2 0 0 1-2-2V5h4"/>
-          <path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/>
-          <path d="M12 17c-3.31 0-6-2.69-6-6V5h12v6c0 3.31-2.69 6-6 6z"/>
-          <line x1="12" y1="17" x2="12" y2="21"/>
-          <line x1="8" y1="21" x2="16" y2="21"/>
-        </svg>
-        New Personal Best!
-      </div>
-    </div>
-    <div class="lesson-complete-badge" id="lesson-complete-badge">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <polyline points="20 6 9 17 4 12"/>
-      </svg>
-      Lesson Complete!
-    </div>
-  </div>
-
-<!-- MIDDLE ROW -->
-  <div class="results-middle">
-
-    <!-- বাম — Hero WPM card -->
+  <!-- TOP: Hero (70%) + Doughnut (30%) -->
+  <div class="res-top-row">
     <div class="res-hero">
       <div class="res-done">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8">
-          <circle cx="12" cy="8" r="7"/>
-          <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+          <circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
         </svg>
         Test Complete
       </div>
@@ -745,60 +721,45 @@
       <div id="best-wrap" style="display:none">
         <div class="best-badge">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M6 9H4a2 2 0 0 1-2-2V5h4"/>
-            <path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/>
+            <path d="M6 9H4a2 2 0 0 1-2-2V5h4"/><path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/>
             <path d="M12 17c-3.31 0-6-2.69-6-6V5h12v6c0 3.31-2.69 6-6 6z"/>
-            <line x1="12" y1="17" x2="12" y2="21"/>
-            <line x1="8" y1="21" x2="16" y2="21"/>
+            <line x1="12" y1="17" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/>
           </svg>
           New Personal Best!
         </div>
       </div>
       <div class="lesson-complete-badge" id="lesson-complete-badge">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="20 6 9 17 4 12"/></svg>
         Lesson Complete!
       </div>
     </div>
-
-    <!-- ডান — Accuracy doughnut -->
-    <div class="ch-card">
+    <div class="res-doughnut-card">
       <h3>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
-          <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/>
-          <path d="M22 12A10 10 0 0 0 12 2v10z"/>
+          <path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/>
         </svg>
         Accuracy
       </h3>
       <canvas id="acc-canvas"></canvas>
     </div>
+  </div>
 
-  </div><!-- /results-middle -->
-
-  <!-- BOTTOM ROW -->
-  <div class="results-bottom">
-
-    <!-- বাম — WPM chart -->
+  <!-- BOTTOM: WPM chart + Detailed stats -->
+  <div class="res-bottom-row">
     <div class="ch-card">
       <h3>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
-          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-          <polyline points="17 6 23 6 23 12"/>
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
         </svg>
         WPM Over Time
       </h3>
       <canvas id="wpm-canvas"></canvas>
     </div>
-
-    <!-- ডান — Detailed stats -->
     <div class="result-breakdown">
       <h3>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
-          <rect x="3" y="3" width="7" height="7"/>
-          <rect x="14" y="3" width="7" height="7"/>
-          <rect x="14" y="14" width="7" height="7"/>
-          <rect x="3" y="14" width="7" height="7"/>
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
         </svg>
         Detailed Stats
       </h3>
@@ -810,42 +771,99 @@
         <div class="rb-item"><span class="rb-label">Correct</span><span class="rb-value accent" id="rb-correct">0</span></div>
         <div class="rb-item"><span class="rb-label">Keystrokes</span><span class="rb-value" id="rb-total-ks">0</span></div>
         <div class="rb-item"><span class="rb-label">Time</span><span class="rb-value" id="rb-time">0s</span></div>
-        <div class="rb-item"><span class="rb-label">Mode</span><span class="rb-value" id="rb-mode">60s</span></div>
+        <div class="rb-item"><span class="rb-label">Mode</span><span class="rb-value" id="rb-mode">--</span></div>
       </div>
     </div>
-
-  </div><!-- /results-bottom -->
+  </div>
 
   <!-- ACTIONS -->
   <div class="res-actions">
     <button class="btn btn-primary btn-lg" onclick="doRestart();nav('test')">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <polyline points="1 4 1 10 7 10"/>
-        <path d="M3.51 15a9 9 0 1 0 .49-4.95"/>
-      </svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
       Try Again
     </button>
     <button class="btn btn-secondary btn-lg" onclick="nav('home')">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-        <polyline points="9 22 9 12 15 12 15 22"/>
-      </svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Home
     </button>
     <button class="btn btn-secondary btn-lg" onclick="nav('lessons')">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
-        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
-      </svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
       Lessons
     </button>
   </div>
 
-</div><!-- /results-wrap -->
+</div>
 </div><!-- /screen-results -->
 
 </div><!-- /container -->
 </main>
+
+<!-- ====================== FOOTER ====================== -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-top">
+
+      <!-- Brand -->
+      <div class="footer-brand">
+        <div class="footer-logo">
+         <img src="assets/img/xvifloo-drk.png" alt="Xvifloo"
+     id="footer-logo-dark"
+     style="height:56px;width:auto;display:block">
+<img src="assets/img/xvifloo-lgt.png" alt="Xvifloo"
+     id="footer-logo-light"
+     style="height:83px;width:auto;display:none">
+        </div>
+        <p class="footer-tagline">Master touch typing with structured lessons and real-time analytics. Free for everyone.</p>
+        <div class="footer-socials">
+          <a href="https://github.com/xvifloo" target="_blank" class="social-btn" title="GitHub">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.02 10.02 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          </a>
+          <a href="https://facebook.com/xvifloo" target="_blank" class="social-btn" title="Facebook">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+          </a>
+          <a href="https://x.com/xvifloo" target="_blank" class="social-btn" title="X (Twitter)">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.747l7.73-8.835L2.18 2.25h6.978l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Navigate -->
+      <div class="footer-col">
+        <div class="footer-col-title">Navigate</div>
+        <a onclick="nav('home')"    class="footer-link">Home</a>
+        <a onclick="nav('lessons')" class="footer-link">Lessons</a>
+        <a onclick="nav('test')"    class="footer-link">Quick Test</a>
+        <a onclick="nav('test')"    class="footer-link">Custom Mode</a>
+      </div>
+
+      <!-- Legal -->
+      <div class="footer-col">
+        <div class="footer-col-title">Legal</div>
+        <a href="#" class="footer-link">Terms &amp; Conditions</a>
+        <a href="#" class="footer-link">Privacy Policy</a>
+        <a href="#" class="footer-link">Cookie Policy</a>
+        <a href="#" class="footer-link">Legal Notice</a>
+      </div>
+
+      <!-- About -->
+      <div class="footer-col">
+        <div class="footer-col-title">About</div>
+        <a href="#" class="footer-link">About XviTyping</a>
+        <a href="#" class="footer-link">Contact</a>
+        <a href="/xvi7admin" class="footer-link">Admin</a>
+      </div>
+
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">©2026 XviTyping. All rights reserved.</span>
+      <span class="footer-made">Made by <a href="https://facebook.com/nafisxvi" target="_blank" class="footer-author">@nafisxvi</a></span>
+    </div>
+  </div>
+</footer>
+<!-- ==================== /FOOTER ==================== -->
 
 <!-- =============================================
      JAVASCRIPT — load order is critical
