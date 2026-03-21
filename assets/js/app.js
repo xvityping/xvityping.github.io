@@ -35,8 +35,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   updateHomeStats();
   buildRecentScores();
 
-  /* 8. Restore sound UI */
+  /* 8. Restore sound UI + volume */
   updateSoundUI();
+  loadVolume();
 
   /* 9. Restore keyboard visibility checkbox */
   const kbChk = el('kb-chk');
@@ -50,14 +51,40 @@ document.addEventListener('DOMContentLoaded', async () => {
   document.addEventListener('keydown', onKey);
 
   /* 12. Keep ghost input focused on test screen */
-  document.addEventListener('click', () => {
+  document.addEventListener('click', (e) => {
     if (S.screen === 'test') {
-      el('ghost-input')?.focus();
+      const gi = el('ghost-input');
+      if (gi) {
+        gi.focus();
+        /* On mobile, trigger virtual keyboard */
+        gi.click();
+      }
     }
   });
 
-  /* 13. Ghost input — clear on any input event */
-  el('ghost-input')?.addEventListener('input', e => { e.target.value = ''; });
+  /* 13. Ghost input — handle mobile typing via input event */
+  const gi = el('ghost-input');
+  if (gi) {
+    gi.addEventListener('input', e => {
+      const val = e.target.value;
+      e.target.value = '';
+      if (!val || S.screen !== 'test') return;
+      /* Process each character typed on mobile */
+      for (const ch of val) {
+        if (!S.running && !S.paused && S.chars.length > 0) startTest();
+        if (S.running) {
+          const typed = S.lang === 'bn' ? (BIJOY[ch] !== undefined ? BIJOY[ch] : ch) : ch;
+          typeChar(typed, ch);
+        }
+      }
+    });
+    gi.addEventListener('blur', () => {
+      /* Re-focus on blur if on test screen (mobile keyboard dismiss fix) */
+      if (S.screen === 'test' && (S.running || S.paused)) {
+        setTimeout(() => gi.focus(), 100);
+      }
+    });
+  }
 
   /* 14. Custom timer input */
   el('custom-sec')?.addEventListener('change', customTimerChanged);

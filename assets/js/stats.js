@@ -150,23 +150,22 @@ function animateCount(id, target, suffix = '') {
 ================================================ */
 
 function updateLessonsProgress() {
-  const list  = S.lessonTab === 'bn' ? S.lessonsBN : S.lessonsEN;
-  const total = list.length * 10; /* 10 parts per lesson */
-  let   done  = 0;
-
-  list.forEach(lesson => {
-    done += storageGetLessonProgress(lesson.id);
-  });
+  /* Collect from BOTH en and bn lessons */
+  const allLessons = [...(S.lessonsEN||[]), ...(S.lessonsBN||[])];
+  const tab = S.lessonTab || 'en';
+  const list = tab === 'bn' ? (S.lessonsBN||[]) : (S.lessonsEN||[]);
+  const total = list.length * 10;
+  let done = 0;
+  list.forEach(lesson => { done += storageGetLessonProgress(lesson.id); });
 
   const pct   = total > 0 ? Math.round((done / total) * 100) : 0;
   const fill  = el('lp-fill');
   const pctEl = el('lp-pct');
   const label = el('lp-label');
 
-  if (fill)  fill.style.width   = pct + '%';
-  if (pctEl) pctEl.textContent  = pct + '%';
-  if (label) label.textContent  =
-    `${done} / ${total} ${S.lang === 'bn' ? 'অংশ সম্পন্ন' : 'parts done'}`;
+  if (fill)  fill.style.width  = pct + '%';
+  if (pctEl) pctEl.textContent = pct + '%';
+  if (label) label.textContent = `${done} / ${total} ${S.lang==='bn'?'অংশ সম্পন্ন':'parts done'}`;
 }
 
 /* ================================================

@@ -3,404 +3,230 @@
    timer.js
 ================================================ */
 
-/* ================================================
-   SET TIMER MODE
-================================================ */
-
-function setTimerMode(mode, btn) {
-  /* Stop running test */
-  if (S.running || S.paused) doRestart();
-
-  if (mode === 'custom') {
-    const v = parseInt(el('custom-sec')?.value) || S.customSec;
-    S.customSec  = v;
-    S.timerMode  = 'custom';
-    setTimerValue(v);
-    storageSetCustomSec(v);
-  } else if (mode === 'inf') {
-    S.timerMode = 'inf';
-    setTimerValue(0); /* infinity — no countdown */
+function setTimerMode(mode,btn) {
+  if (S.running||S.paused) doRestart();
+  if (mode==='custom') {
+    const inp=el('custom-min');
+    const v=Math.max(1,Math.min(60,parseInt(inp?.value)||2));
+    S.customSec=v*60; S.timerMode='custom';
+    setTimerValue(S.customSec); storageSetCustomSec(S.customSec);
+  } else if (mode==='inf') {
+    S.timerMode='inf'; setTimerValue(0);
   } else {
-    S.timerMode = mode;
-    setTimerValue(mode);
+    S.timerMode=mode; setTimerValue(mode);
   }
-
   storageSetTimerMode(S.timerMode);
   highlightTimerBtn(mode);
-
-  /* Reload text when mode changes (unless lesson) */
-  if (S.screen === 'test' && !S.lesson) fetchText();
+  if (S.screen==='test'&&!S.lesson) fetchText();
 }
-
-/* ================================================
-   SET TIMER VALUE
-================================================ */
 
 function setTimerValue(sec) {
-  S.timerSec = sec;
-  S.timerMax = sec;
-  setTimerDisplay();
-  setProg(1);
+  S.timerSec=sec; S.timerMax=sec;
+  setTimerDisplay(); setProg(1);
 }
-
-/* ================================================
-   TIMER DISPLAY
-================================================ */
 
 function setTimerDisplay() {
-  const td = el('timer-disp');
+  const td=el('timer-disp');
   if (!td) return;
-
-  if (S.timerMode === 'inf') {
-    td.textContent = '∞';
-    td.className   = 'timer-big infinity';
+  /* Lessons and infinity → show elapsed count-up */
+  if (S.lesson||S.timerMode==='inf') {
+    const t=S.timerSec;
+    const m=Math.floor(t/60), s=t%60;
+    td.textContent=`${m}:${String(s).padStart(2,'0')}`;
+    td.className='timer-big infinity';
     return;
   }
-
-  const t = S.timerSec;
-  const m = Math.floor(t / 60);
-  const s = t % 60;
-  td.textContent = m > 0
-    ? `${m}:${String(s).padStart(2, '0')}`
-    : String(s);
+  const t=S.timerSec, m=Math.floor(t/60), s=t%60;
+  td.textContent=m>0?`${m}:${String(s).padStart(2,'0')}`:String(s);
 }
-
-/* ================================================
-   HIGHLIGHT TIMER MODE BUTTON
-================================================ */
 
 function highlightTimerBtn(mode) {
-  document.querySelectorAll('.t-mode').forEach(b => b.classList.remove('active'));
-
-  const map = {
-    60:       'tm-60',
-    120:      'tm-120',
-    300:      'tm-300',
-    'custom': 'tm-c',
-    'inf':    'tm-inf',
-  };
-
-  const target = el(map[mode]);
-  if (target) target.classList.add('active');
+  document.querySelectorAll('.t-mode').forEach(b=>b.classList.remove('active'));
+  const map={60:'tm-60',180:'tm-180',300:'tm-300','custom':'tm-c','inf':'tm-inf'};
+  const t=el(map[mode]); if(t) t.classList.add('active');
 }
-
-/* ================================================
-   CUSTOM TIMER INPUT CHANGED
-================================================ */
 
 function customTimerChanged() {
-  const v = parseInt(el('custom-sec')?.value) || 90;
-  S.customSec = Math.max(10, Math.min(600, v));
-  storageSetCustomSec(S.customSec);
-
-  if (S.timerMode === 'custom') {
-    setTimerValue(S.customSec);
-    if (S.screen === 'test' && !S.running && S.text) {
-      initTest(S.text);
-    }
-  }
+  const inp=el('custom-min');
+  const v=Math.max(1,Math.min(60,parseInt(inp?.value)||2));
+  S.customSec=v*60; storageSetCustomSec(S.customSec);
+  if (S.timerMode==='custom') { setTimerValue(S.customSec); if(S.screen==='test'&&!S.running&&S.text) initTest(S.text); }
 }
-
-/* ================================================
-   MAIN BUTTON — Start / Pause / Resume
-================================================ */
 
 function handleMain() {
-  if (!S.running && !S.paused) startTest();
-  else if (S.running)           pauseTest();
-  else                          resumeTest();
+  if (!S.running&&!S.paused) startTest();
+  else if (S.running) pauseTest();
+  else resumeTest();
 }
-
-/* ================================================
-   START TEST
-================================================ */
 
 function startTest() {
-  if (!S.text || S.chars.length === 0) {
-    toast(S.lang === 'bn' ? 'টেক্সট লোড হয়নি' : 'No text loaded', 'e');
-    return;
-  }
-
-  S.running = true;
-  S.paused  = false;
-  S.t0      = Date.now();
-
-  showState('text');
-  setBtnState('run');
-  el('stop-btn').style.display = 'inline-flex';
+  if (!S.text||S.chars.length===0) { toast('No text loaded','e'); return; }
+  S.running=true; S.paused=false; S.t0=Date.now();
+  showState('text'); setBtnState('run');
+  el('stop-btn').style.display='inline-flex';
   el('ghost-input')?.focus();
-
-  hlNextKey();
-  startTimers();
-  beep('start');
-
-  toast(S.lang === 'bn' ? 'শুরু করুন! শুভকামনা' : 'Go! Good luck', 'i');
+  hlNextKey(); startTimers(); beep('start');
 }
-
-/* ================================================
-   PAUSE TEST
-================================================ */
 
 function pauseTest() {
-  S.running = false;
-  S.paused  = true;
-  clearInterval(S.tInterval);
-  clearInterval(S.wInterval);
-  setBtnState('pause');
-  beep('pause');
-  toast(S.lang === 'bn' ? 'বিরতি — Resume চাপুন' : 'Paused', 'i');
+  S.running=false; S.paused=true;
+  clearInterval(S.tInterval); clearInterval(S.wInterval);
+  setBtnState('pause'); beep('pause');
+  toast(S.lang==='bn'?'বিরতি':'Paused','i');
 }
-
-/* ================================================
-   RESUME TEST
-================================================ */
 
 function resumeTest() {
-  S.running = true;
-  S.paused  = false;
-
-  /* Recalculate t0 so elapsed time is preserved */
-  const elapsed = (S.timerMax - S.timerSec) * 1000;
-  S.t0 = Date.now() - elapsed;
-
-  setBtnState('run');
-  startTimers();
-  el('ghost-input')?.focus();
+  S.running=true; S.paused=false;
+  /* Preserve elapsed */
+  if (S.lesson||S.timerMode==='inf') {
+    S.t0=Date.now()-(S.timerSec*1000);
+  } else {
+    const elapsed=(S.timerMax-S.timerSec)*1000;
+    S.t0=Date.now()-elapsed;
+  }
+  setBtnState('run'); startTimers(); el('ghost-input')?.focus();
 }
-
-/* ================================================
-   STOP TEST (manual)
-================================================ */
 
 function doStop() {
-  clearInterval(S.tInterval);
-  clearInterval(S.wInterval);
-  S.running = false;
-  S.paused  = false;
-  setBtnState('idle');
-  el('stop-btn').style.display = 'none';
-
-  /* Show results only if meaningful progress */
-  if (S.correctKS > 5) {
-    finishTest();
-  } else {
-    toast(S.lang === 'bn' ? 'বন্ধ করা হয়েছে' : 'Stopped', 'e');
-    doRestart();
-  }
+  clearInterval(S.tInterval); clearInterval(S.wInterval);
+  S.running=false; S.paused=false; setBtnState('idle');
+  el('stop-btn').style.display='none';
+  if (S.correctKS>3) finishTest();
+  else { toast('Stopped','e'); doRestart(); }
 }
-
-/* ================================================
-   RESTART
-================================================ */
 
 function doRestart() {
-  clearInterval(S.tInterval);
-  clearInterval(S.wInterval);
-  clearKbHl();
-  hidePartComplete();
-
-  /* Restore timer */
-  const sec = S.timerMode === 'custom' ? S.customSec
-    : S.timerMode === 'inf'    ? 0
-    : typeof S.timerMode === 'number' ? S.timerMode : 60;
-
-  setTimerValue(sec);
-
-  const td = el('timer-disp');
-  if (td) td.className = S.timerMode === 'inf' ? 'timer-big infinity' : 'timer-big';
-
-  el('stop-btn').style.display = 'none';
-
-  /* Reload text */
-  if (S.lesson) {
-    initTest(S.lesson.parts[S.partIdx].text);
-  } else {
-    fetchText();
+  clearInterval(S.tInterval); clearInterval(S.wInterval);
+  clearKbHl(); hidePartComplete();
+  if (S.lesson) { S.timerMode='inf'; setTimerValue(0); }
+  else {
+    const sec=S.timerMode==='custom'?S.customSec:S.timerMode==='inf'?0:typeof S.timerMode==='number'?S.timerMode:60;
+    setTimerValue(sec);
   }
+  const td=el('timer-disp');
+  if (td) td.className=(S.lesson||S.timerMode==='inf')?'timer-big infinity':'timer-big';
+  el('stop-btn').style.display='none';
+  if (S.lesson) initTest(S.lesson.parts[S.partIdx].text);
+  else fetchText();
 }
 
-/* ================================================
-   COUNTDOWN + WPM UPDATE INTERVALS
-================================================ */
-
 function startTimers() {
-  /* Countdown — fires every second */
-  S.tInterval = setInterval(() => {
+  S.tInterval=setInterval(()=>{
     if (!S.running) return;
-
-    /* Infinity mode — count UP instead */
-    if (S.timerMode === 'inf') {
-      S.timerSec++;
-      setTimerDisplay();
-      return;
+    /* Lessons & infinity — count UP */
+    if (S.lesson||S.timerMode==='inf') {
+      S.timerSec=Math.round((Date.now()-S.t0)/1000);
+      setTimerDisplay(); return;
     }
-
-    S.timerSec--;
-    setTimerDisplay();
-    setProg(S.timerSec / S.timerMax);
-
-    /* Timer state colors */
-    const td = el('timer-disp');
+    S.timerSec--; setTimerDisplay(); setProg(S.timerSec/S.timerMax);
+    const td=el('timer-disp');
     if (td) {
-      if (S.timerSec <= 5) {
-        td.className = 'timer-big danger';
-        beep('danger');
-      } else if (S.timerSec <= 15) {
-        td.className = 'timer-big warn';
-        if (S.timerSec % 5 === 0) beep('warn');
-      } else {
-        td.className = 'timer-big';
-      }
+      if (S.timerSec<=5) { td.className='timer-big danger'; beep('danger'); }
+      else if (S.timerSec<=15) { td.className='timer-big warn'; if(S.timerSec%5===0) beep('warn'); }
+      else td.className='timer-big';
     }
+    if (S.timerSec<=0) finishTest();
+  },1000);
 
-    if (S.timerSec <= 0) finishTest();
-  }, 1000);
-
-  /* WPM / accuracy update — every 500ms */
-  S.wInterval = setInterval(() => {
+  S.wInterval=setInterval(()=>{
     if (!S.running) return;
-    const wpm = calcWPM();
-    const acc = calcAcc();
-    const el_wpm = el('s-wpm');
-    const el_acc = el('s-acc');
-    if (el_wpm) el_wpm.textContent = wpm;
-    if (el_acc) el_acc.textContent = acc;
-
-    /* Store WPM snapshot */
-    if (S.t0) {
-      S.wpmHistory.push({
-        t:   Math.round((Date.now() - S.t0) / 1000),
-        wpm: wpm,
-      });
-    }
-  }, 500);
+    const wpm=calcWPM(),acc=calcAcc();
+    const ew=el('s-wpm'),ea=el('s-acc');
+    if (ew) ew.textContent=wpm;
+    if (ea) ea.textContent=acc;
+    if (S.t0) S.wpmHistory.push({t:Math.round((Date.now()-S.t0)/1000),wpm});
+  },500);
 }
 
 /* ================================================
    FINISH TEST
 ================================================ */
-
 function finishTest() {
-  clearInterval(S.tInterval);
-  clearInterval(S.wInterval);
-  S.running = false;
-  S.paused  = false;
-
-  const wpm  = calcWPM();
-  const acc  = calcAcc();
-  const cpm  = calcCPM();
-  const errs = S.mistakes;
-  const elapsed = S.t0 ? Math.round((Date.now() - S.t0) / 1000) : 0;
+  clearInterval(S.tInterval); clearInterval(S.wInterval);
+  S.running=false; S.paused=false;
+  const wpm=calcWPM(), acc=calcAcc(), cpm=calcCPM();
+  const errs=S.mistakes;
+  const elapsed=S.t0?Math.round((Date.now()-S.t0)/1000):0;
+  const totalWords=S.text?S.text.split(' ').length:0;
 
   beep('win');
-
-  /* Common saves */
-  storageIncrTests();
-  storageAddTime(elapsed);
-  const isNewBest = storageUpdateBest(wpm, acc, cpm);
+  storageIncrTests(); storageAddTime(elapsed);
+  const isNewBest=storageUpdateBest(wpm,acc,cpm);
   if (isNewBest) beep('best');
-  storagePushRecent({
-    wpm, acc, errors: errs,
-    time: elapsed,
-    mode: S.timerMode,
-    lang: S.lang,
-    date: new Date().toLocaleDateString(),
-  });
+  storagePushRecent({wpm,acc,errors:errs,time:elapsed,mode:S.timerMode,lang:S.lang,date:new Date().toLocaleDateString()});
 
-  /* ── LESSON MODE — show part-complete overlay ── */
+  /* LESSON MODE → show in-card overlay */
   if (S.lesson) {
-    storageMarkDone(S.lesson.id, S.partIdx + 1);
-    savePartBest(S.lesson.id, S.partIdx, wpm);
-
-    const totalParts = S.lesson.parts.length;
-    const hasNext    = S.partIdx + 1 < totalParts;
-    const lessonDone = storageIsLessonDone(S.lesson.id, totalParts);
-
-    if (lessonDone) {
-      beep('best');
-      toast(
-        S.lang === 'bn'
-          ? `পাঠ সম্পন্ন: ${S.lesson.title}`
-          : `Lesson complete: ${S.lesson.title}`,
-        's'
-      );
-    }
-
-    /* Show part-complete overlay */
-    showPartCompleteOverlay(wpm, acc, hasNext);
-
-    /* Enable Enter key → next part */
-    S.waitingForNext = true;
+    storageMarkDone(S.lesson.id,S.partIdx+1);
+    savePartBest(S.lesson.id,S.partIdx,wpm);
+    /* Update progress bar immediately */
+    if(typeof updateLessonsProgress==='function') updateLessonsProgress();
+    const totalParts=S.lesson.parts.length;
+    const hasNext=S.partIdx+1<totalParts;
+    if (storageIsLessonDone(S.lesson.id,totalParts)) { beep('best'); toast(`Lesson complete: ${S.lesson.title}`,'s'); }
+    buildPartsGrid(S.lesson); /* refresh part cards */
+    updateLessonsProgress();   /* update 0/160 counter */
+    showPartCompleteOverlay(wpm,acc,errs,elapsed,totalWords,S.correctKS,hasNext);
+    S.waitingForNext=true;
     return;
   }
 
-  /* ── FREE TEST — go to results screen ── */
-  showResults(wpm, acc, cpm, errs, elapsed, isNewBest);
+  /* FREE TEST → results screen */
+  showResults(wpm,acc,cpm,errs,elapsed,isNewBest);
 }
 
-/* ================================================
-   SHOW PART COMPLETE OVERLAY
-================================================ */
-
-function showPartCompleteOverlay(wpm, acc, hasNext) {
-  const ov = el('part-complete-overlay');
+/* ── Part complete overlay ── */
+function showPartCompleteOverlay(wpm,acc,errs,elapsed,totalWords,correct,hasNext) {
+  const ov=el('part-complete-overlay');
   if (!ov) return;
-
-  const wpmEl  = ov.querySelector('.pco-wpm');
-  const subEl  = ov.querySelector('.pco-sub');
-  const nextBtn = el('next-part-btn');
-
-  if (wpmEl) wpmEl.textContent = wpm;
-  if (subEl) subEl.textContent = acc + '% accuracy';
-
-  /* Show/hide Next Part button */
-  if (nextBtn) {
-    if (hasNext) {
-      nextBtn.style.display = 'inline-flex';
-      nextBtn.onclick = goToNextPart;
-      nextBtn.innerHTML = `
-        Next Part
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2.5">
-          <path d="M5 12h14M12 5l7 7-7 7"/>
-        </svg>`;
-    } else {
-      nextBtn.style.display = 'none';
-    }
-  }
-
+  const m=Math.floor(elapsed/60),s=elapsed%60;
+  const timeStr=m>0?`${m}:${String(s).padStart(2,'0')}`:`${s}s`;
+  ov.innerHTML=`
+    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;padding:8px 0">
+      <div style="font-family:var(--font-head);font-size:.82rem;color:var(--correct);text-transform:uppercase;letter-spacing:.12em;display:flex;align-items:center;gap:7px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        Part ${S.partIdx+1} Complete
+      </div>
+      <div style="display:flex;gap:32px;flex-wrap:wrap;justify-content:center">
+        <div style="text-align:center"><div style="font-family:var(--font-head);font-size:3rem;font-weight:800;color:var(--accent);line-height:1">${wpm}</div><div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-top:3px">WPM</div></div>
+        <div style="text-align:center"><div style="font-family:var(--font-head);font-size:3rem;font-weight:800;color:var(--correct);line-height:1">${acc}%</div><div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-top:3px">Accuracy</div></div>
+        <div style="text-align:center"><div style="font-family:var(--font-head);font-size:3rem;font-weight:800;color:#a78bfa;line-height:1">${timeStr}</div><div style="font-size:.6rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-top:3px">Time</div></div>
+      </div>
+      <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;font-size:.82rem">
+        <span>Words: <b style="color:var(--text)">${totalWords}</b></span>
+        <span style="color:var(--correct)">Correct: <b>${correct}</b></span>
+        <span style="color:var(--wrong)">Wrong: <b>${errs}</b></span>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:4px">
+        <button class="btn btn-ghost btn-sm" onclick="hidePartComplete();doRestart()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+          Restart
+        </button>
+        ${hasNext?`<button class="btn btn-primary" id="next-part-btn" onclick="goToNextPart()">Next Part <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button>`:
+        `<button class="btn btn-primary" onclick="nav('lessons')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> All Done!</button>`}
+      </div>
+      <div style="font-size:.68rem;color:var(--text-muted);display:flex;align-items:center;gap:8px">
+        <span class="kbd">Enter</span> = Next &nbsp;·&nbsp; <span class="kbd">Space</span> = Restart
+      </div>
+    </div>`;
   ov.classList.add('show');
   el('ghost-input')?.focus();
 }
 
-/* ================================================
-   GO TO NEXT PART
-================================================ */
-
 function goToNextPart() {
   if (!S.lesson) return;
-  const nextIdx = S.partIdx + 1;
-  if (nextIdx >= S.lesson.parts.length) return;
-
-  hidePartComplete();
-  S.waitingForNext = false;
-
-  /* Unlock + start next part */
-  S.partIdx = nextIdx;
-  const text = S.lesson.parts[nextIdx].text;
-
-  if (text === '__FETCH_WORDS__' || text === '__FETCH_QUOTE__' ||
-      text === '__FETCH_BN_WORDS__' || text === '__FETCH_BN_QUOTE__') {
-    fetchText();
-  } else {
-    initTest(text);
-  }
-
+  const nextIdx=S.partIdx+1;
+  if (nextIdx>=S.lesson.parts.length) return;
+  hidePartComplete(); S.waitingForNext=false;
+  S.partIdx=nextIdx;
+  const text=S.lesson.parts[nextIdx].text;
+  if (text.startsWith('__FETCH')) fetchText();
+  else initTest(text);
   updateLessonInfoBar();
-  toast(
-    S.lang === 'bn'
-      ? `অংশ ${nextIdx + 1} / ${S.lesson.parts.length}`
-      : `Part ${nextIdx + 1} / ${S.lesson.parts.length}`,
-    'i'
-  );
+  toast(`Part ${nextIdx+1} / ${S.lesson.parts.length}`,'i');
+}
+
+function formatTimeSec(sec) {
+  if (sec<60) return sec+'s';
+  return Math.floor(sec/60)+'m '+(sec%60)+'s';
 }

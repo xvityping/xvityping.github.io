@@ -144,6 +144,10 @@ function onScreenEnter(screen, prev, opts) {
       break;
 
     case 'test':
+      /* Hide timer bar in lesson mode */
+      const timerBar = document.getElementById('timer-controls-wrap');
+      if (timerBar) timerBar.style.display = S.lesson ? 'none' : '';
+
       /* Focus ghost input so typing works immediately */
       setTimeout(() => {
         const gi = document.getElementById('ghost-input');
@@ -154,14 +158,23 @@ function onScreenEnter(screen, prev, opts) {
       if (opts.lesson && opts.partIdx !== undefined) {
         S.lesson  = opts.lesson;
         S.partIdx = opts.partIdx;
-        S.lang    = opts.lesson.lang || 'en';
-        setLang(S.lang);
-        /* Set timer to 2 min for lessons */
-        setTimerMode(120);
-        initTest(opts.lesson.parts[opts.partIdx].text);
+        /* Switch language if needed */
+        if (opts.lesson.lang && opts.lesson.lang !== S.lang) {
+          S.lang = opts.lesson.lang;
+          document.documentElement.setAttribute('data-lang', S.lang);
+          buildKb();
+        }
+        /* Lessons: always infinity, use lesson's own text */
+        S.timerMode = 'inf';
+        setTimerValue(0);
+        const partText = opts.lesson.parts[opts.partIdx].text;
+        if (partText && !partText.startsWith('__FETCH')) {
+          initTest(partText);
+        } else {
+          fetchText();
+        }
         updateLessonInfoBar();
       } else if (!S.text) {
-        /* Quick / custom test — fetch text */
         fetchText();
       }
 
