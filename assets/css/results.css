@@ -1,16 +1,24 @@
 /* ================================================
-   RESULTS — Full viewport, no empty space
+   RESULTS — Full viewport, no scroll
 ================================================ */
 
 .results-wrap {
-  padding: 12px 0 0;
+  padding: 10px 0 0;
   display: flex;
   flex-direction: column;
   gap: 10px;
   height: calc(100vh - 70px);
 }
 
-/* ── HERO ── */
+/* ── TOP ROW: 70% hero + 30% doughnut ── */
+.res-top-row {
+  display: grid;
+  grid-template-columns: 7fr 3fr;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+/* Hero card */
 .res-hero {
   text-align: center;
   padding: 18px 40px 14px;
@@ -20,26 +28,18 @@
   backdrop-filter: blur(14px);
   position: relative;
   overflow: hidden;
-  flex-shrink: 0;
 }
 
 .res-hero::before {
   content: '';
   position: absolute;
-  width: 280px; height: 280px;
+  width: 260px; height: 260px;
   border-radius: 50%;
   background: var(--accent-glow);
-  top: -140px; left: 50%;
+  top: -130px; left: 50%;
   transform: translateX(-50%);
   pointer-events: none;
   filter: blur(40px);
-}
-
-.res-hero::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, rgba(0,212,177,.03) 0%, transparent 50%, rgba(124,58,237,.03) 100%);
-  pointer-events: none;
 }
 
 .res-done {
@@ -51,7 +51,7 @@
 
 .wpm-giant {
   font-family: var(--font-head);
-  font-size: clamp(2.8rem, 4vw, 4.5rem);
+  font-size: clamp(2.8rem, 4vw, 4.8rem);
   font-weight: 800; line-height: 1;
   background: linear-gradient(135deg, var(--accent) 0%, #a78bfa 60%, var(--accent) 100%);
   background-size: 200% auto;
@@ -61,7 +61,6 @@
   animation: gradShift 4s linear infinite;
   position: relative; z-index: 1;
 }
-
 @keyframes gradShift { to { background-position: 200% center; } }
 
 .wpm-sub {
@@ -71,18 +70,12 @@
 }
 
 .res-stats {
-  display: flex; align-items: center;
-  justify-content: center;
-  gap: 22px; margin-top: 10px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 20px; margin-top: 10px; flex-wrap: wrap;
   position: relative; z-index: 1;
 }
-
 .rs-item { text-align: center; }
-.rs-val {
-  font-family: var(--font-head);
-  font-size: 1.4rem; font-weight: 800;
-  display: block; line-height: 1; margin-bottom: 2px;
-}
+.rs-val { font-family: var(--font-head); font-size: 1.4rem; font-weight: 800; display: block; line-height: 1; margin-bottom: 2px; }
 .rs-lbl { font-size: .58rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .09em; }
 .rs-item.g .rs-val { color: var(--correct); }
 .rs-item.r .rs-val { color: var(--wrong); }
@@ -93,16 +86,12 @@
 .best-badge {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 4px 12px; border-radius: 50px;
-  background: rgba(251,191,36,.10);
-  border: 1px solid rgba(251,191,36,.35);
+  background: rgba(251,191,36,.10); border: 1px solid rgba(251,191,36,.35);
   color: #fbbf24; font-size: .72rem; font-weight: 700;
-  margin-top: 6px; position: relative; z-index: 1;
+  margin-top: 8px; position: relative; z-index: 1;
   animation: badgePop .4s cubic-bezier(.34,1.56,.64,1) both;
 }
-@keyframes badgePop {
-  from { opacity: 0; transform: scale(.7); }
-  to   { opacity: 1; transform: scale(1); }
-}
+@keyframes badgePop { from { opacity:0; transform:scale(.7); } to { opacity:1; transform:scale(1); } }
 
 .lesson-complete-badge {
   display: none; align-items: center; gap: 6px;
@@ -111,29 +100,27 @@
   color: var(--correct); font-size: .72rem; font-weight: 700;
   margin-top: 6px; position: relative; z-index: 1;
 }
-.lesson-complete-badge.show {
-  display: inline-flex;
-  animation: badgePop .4s cubic-bezier(.34,1.56,.64,1) both;
-}
+.lesson-complete-badge.show { display: inline-flex; animation: badgePop .4s cubic-bezier(.34,1.56,.64,1) both; }
 
-/* ── MIDDLE ROW — expands to fill space ── */
-.results-middle {
+/* ── BOTTOM ROW: WPM chart + Detailed stats (fills remaining space) ── */
+.res-bottom-row {
   display: grid;
-  grid-template-columns: 7fr 3fr;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   flex: 1;
   min-height: 0;
 }
 
-/* ── CHART CARD ── */
+/* ── Chart card ── */
 .ch-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--r-lg);
-  padding: 14px 16px 10px;
+  padding: 12px 14px 10px;
   backdrop-filter: blur(12px);
   display: flex;
   flex-direction: column;
+  min-height: 0;
 }
 
 .ch-card h3 {
@@ -146,118 +133,97 @@
 }
 
 .ch-card canvas {
-  flex: 1;
-  min-height: 0 !important;
+  flex: 1; min-height: 0 !important;
   max-height: none !important;
   height: 100% !important;
   width: 100% !important;
 }
 
-/* ── BREAKDOWN ── */
-.result-breakdown {
+/* Doughnut right panel */
+.res-doughnut-card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: var(--r-lg);
+  border-radius: var(--r-xl);
   padding: 14px 16px;
   backdrop-filter: blur(12px);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.result-breakdown h3 {
+.res-doughnut-card h3 {
   font-family: var(--font-head);
   font-size: .7rem; font-weight: 700;
   color: var(--text-dim); margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+  text-transform: uppercase; letter-spacing: .06em;
+  align-self: flex-start;
+}
+
+.res-doughnut-card canvas {
+  width: 100% !important;
+  height: auto !important;
+  max-height: 200px !important;
+}
+
+/* ── Breakdown ── */
+.result-breakdown {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 12px 14px;
+  backdrop-filter: blur(12px);
+  display: flex; flex-direction: column;
+  min-height: 0;
+}
+.result-breakdown h3 {
+  font-family: var(--font-head);
+  font-size: .7rem; font-weight: 700;
+  color: var(--text-dim); margin-bottom: 8px;
   text-transform: uppercase; letter-spacing: .06em;
   display: flex; align-items: center; gap: 6px;
   flex-shrink: 0;
 }
-
 .rb-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  flex: 1;
+  gap: 7px; flex: 1;
 }
-
 .rb-item {
   background: var(--bg2);
   border: 1px solid var(--border);
   border-radius: var(--r-sm);
   padding: 0 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 3px;
+  display: flex; flex-direction: column;
+  justify-content: center; gap: 2px;
 }
-
-.rb-label { font-size: .6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; }
-.rb-value { font-family: var(--font-head); font-size: 1.2rem; font-weight: 700; color: var(--text); line-height: 1; }
+.rb-label { font-size: .58rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .08em; }
+.rb-value { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; color: var(--text); line-height: 1; }
 .rb-value.accent  { color: var(--accent); }
 .rb-value.correct { color: var(--correct); }
 .rb-value.wrong   { color: var(--wrong); }
 .rb-value.purple  { color: #a78bfa; }
 
-/* ── ACTIONS ── */
+/* ── Actions ── */
 .res-actions {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  flex-shrink: 0;
-  padding-bottom: 12px;
+  gap: 10px; flex-shrink: 0;
+  padding-bottom: 10px;
 }
-
 .res-actions .btn {
   justify-content: center;
-  width: 100%;
-  padding: 16px;
-  font-size: 1rem;
+  width: 100%; padding: 14px;
+  font-size: .95rem;
 }
 
-/* Legacy */
+/* legacy selectors kept for compatibility */
 .charts-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
 .results-bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.wpm-history { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 14px 16px; backdrop-filter: blur(12px); }
 .wh-list { display: flex; flex-direction: column; gap: 5px; }
 .wh-item { display: flex; align-items: center; gap: 8px; }
 .wh-time { font-size: .66rem; color: var(--text-muted); min-width: 28px; font-family: var(--font-mono); }
 .wh-bar-wrap { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
 .wh-bar { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent), #a78bfa); }
 .wh-wpm { font-family: var(--font-head); font-size: .72rem; font-weight: 700; color: var(--accent); min-width: 28px; text-align: right; }
-
-/* Bottom row — WPM chart + Detailed stats */
-.results-bottom {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  flex: 1;
-  min-height: 0;
-}
-
-/* Middle row fix */
-.results-middle {
-  display: grid;
-  grid-template-columns: 7fr 3fr;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
-/* Hero inside middle row */
-.results-middle .res-hero {
-  padding: 28px 40px;
-}
-```
-
----
-
-এই layout হবে:
-```
-┌─────────────────────────┬──────────────┐
-│  Test Complete  23 WPM  │   Accuracy   │
-│  84% · 9 · 50s · 95     │    Circle    │
-│  (বাম ৭০%)              │  (ডান ৩০%)  │
-├─────────────────────────┼──────────────┤
-│   WPM Over Time Chart   │ Detailed Stats│
-│       (৫০%)             │    (৫০%)     │
-└─────────────────────────┴──────────────┘
-[ Try Again ]  [ Home ]  [ Lessons ]

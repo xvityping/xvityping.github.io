@@ -108,7 +108,7 @@
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--r-xl);
-  padding: 48px 36px 44px;
+  padding: 32px 28px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -268,29 +268,21 @@
 }
 
 .recent-item {
-  display: flex; align-items: center; gap: 16px;
+  display: flex; align-items: center; gap: 10px;
   background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--r-lg); padding: 22px 24px;
+  border-radius: var(--r-md); padding: 12px 16px;
   backdrop-filter: blur(10px);
-  transition: all var(--t-base);
-  height: 100px;
-}
-
-.recent-item:hover {
-  border-color: var(--accent);
-  transform: translateY(-3px);
-  box-shadow: 0 10px 28px rgba(0,212,177,.10);
 }
 
 .recent-wpm {
   font-family: var(--font-head);
-  font-size: 0.5rem; font-weight: 800;
+  font-size: 1.6rem; font-weight: 800;
   color: var(--accent); line-height: 1;
 }
 
-.recent-meta { display: flex; flex-direction: column; gap: 6px; }
-.recent-meta .rm-mode { font-size: 1.1rem; font-weight: 600; color: var(--text); }
-.recent-meta .rm-date { font-size: .95rem; color: var(--text-muted); }
+.recent-meta { display: flex; flex-direction: column; gap: 2px; }
+.recent-meta .rm-mode { font-size: .75rem; font-weight: 600; color: var(--text); }
+.recent-meta .rm-date { font-size: .68rem; color: var(--text-muted); }
 
 /* ---------- EMPTY STATE ---------- */
 .empty-state {
@@ -532,20 +524,22 @@
 }
 
 /* ---------- STATS STRIP ---------- */
-/* ---------- STATS STRIP — fills full width ---------- */
 .stats-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--r-xl);
   backdrop-filter: blur(12px);
   overflow: hidden;
-  margin-bottom: 32px;
+  margin-bottom: 40px;
 }
 
 .st-item {
-  padding: 40px 20px;
+  flex: 1;
+  min-width: 120px;
+  padding: 26px 20px;
   text-align: center;
   border-right: 1px solid var(--border);
   position: relative;
@@ -562,7 +556,8 @@
 
 .st-val {
   font-family: var(--font-head);
-  font-size: 3rem; font-weight: 800;
+  font-size: 2rem;
+  font-weight: 800;
   color: var(--accent);
   display: block;
   line-height: 1;
@@ -575,9 +570,11 @@
 }
 
 .st-lbl {
-  font-size: .75rem; color: var(--text-muted);
-  text-transform: uppercase; letter-spacing: .1em; display: block;
-  margin-top: 4px;
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  display: block;
 }
 
 /* Animated counter class (JS adds this) */
@@ -692,16 +689,6 @@
 }
 
 /* ---------- SCROLL HINT ---------- */
-/* ---------- RECENT SECTION SEPARATOR ---------- */
-/* ---------- RECENT SECTION SEPARATOR ---------- */
-.recent-row {
-  margin-top: 250px;
-  padding-top: 28px;
-  border-top: 1px solid var(--border);
-  margin-bottom: 60px;
-  scroll-margin-top: 80px;
-}
-
 .scroll-hint {
   display: flex;
   align-items: center;
